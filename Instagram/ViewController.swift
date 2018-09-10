@@ -10,16 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    
+    //Creating a PhotoButton using closures
     let plusPhotoButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.red
+        button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     
-
+    //Adding the view to viewDidLoad and adding contraints
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(plusPhotoButton)
