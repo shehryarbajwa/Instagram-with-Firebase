@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController {
     
@@ -26,8 +27,25 @@ class ViewController: UIViewController {
         textfield.borderStyle = .roundedRect
         textfield.font = UIFont.systemFont(ofSize: 14)
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
+        
+        textfield.addTarget(self, action: #selector(changecolor), for: .editingChanged)
         return textfield
     }()
+    
+    @objc func changecolor(){
+        
+        let isFormValid = emailTextField.text?.characters.count ?? 0 > 0 && userNameTextField.text?.characters.count ?? 0 > 0 && passwordTextField.text?.characters.count ?? 0 > 0
+        
+        if isFormValid {
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 230)
+        } else {
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
+        }
+        
+        
+    }
     
     let userNameTextField: UITextField = {
         
@@ -37,6 +55,7 @@ class ViewController: UIViewController {
         textfield.borderStyle = .roundedRect
         textfield.font = UIFont.systemFont(ofSize: 14)
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
+        textfield.addTarget(self, action: #selector(changecolor), for: .editingChanged)
         return textfield
     }()
     let passwordTextField: UITextField = {
@@ -48,6 +67,7 @@ class ViewController: UIViewController {
         textfield.borderStyle = .roundedRect
         textfield.font = UIFont.systemFont(ofSize: 14)
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
+        textfield.addTarget(self, action: #selector(changecolor), for: .editingChanged)
         return textfield
     }()
     
@@ -58,10 +78,29 @@ class ViewController: UIViewController {
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
+        button.isEnabled = false
+        
+        button.addTarget(self, action: #selector(signup), for: .touchUpInside)
+        
         return button
     }()
     
-    
+    @objc func signup(){
+        
+        guard let email = emailTextField.text else {return}
+        guard let username = userNameTextField.text else {return}
+        guard let password = passwordTextField.text else {return}
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if let error = error {
+                print("failed to create a user")
+                return
+            }
+            
+            print("successfully created user", user?.user ?? "" )
+        }
+        
+    }
     
     
     //Adding the view to viewDidLoad and adding contraints
@@ -72,10 +111,8 @@ class ViewController: UIViewController {
 
         plusPhotoButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 140)
         
-//        plusPhotoButton.heightAnchor.constraint(equalToConstant: 130).isActive = true
-//        plusPhotoButton.widthAnchor.constraint(equalToConstant: 130).isActive = true
+
         plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        plusPhotoButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
         
         setupInputFields()
         
