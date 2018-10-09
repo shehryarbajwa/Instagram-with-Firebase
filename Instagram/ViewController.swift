@@ -9,15 +9,38 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //Creating a PhotoButton using closures
     let plusPhotoButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handlePlusPhoto), for: .touchUpInside)
         return button
+        
     }()
+    
+    @objc func handlePlusPhoto(){
+        let imagepickercontroller = UIImagePickerController()
+        imagepickercontroller.delegate = self
+        present(imagepickercontroller, animated: true, completion: nil)
+    }
+    
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let editedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            plusPhotoButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+        plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width/2
+        plusPhotoButton.layer.masksToBounds = true
+        
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    
     
     let emailTextField: UITextField = {
         
@@ -80,12 +103,12 @@ class ViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.isEnabled = false
         
-        button.addTarget(self, action: #selector(signup), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handlesignup), for: .touchUpInside)
         
         return button
     }()
     
-    @objc func signup(){
+    @objc func handlesignup(){
         
         guard let email = emailTextField.text else {return}
         guard let username = userNameTextField.text else {return}
@@ -97,9 +120,44 @@ class ViewController: UIViewController {
                 return
             }
             
-            print("successfully created user", user?.user ?? "" )
-        }
+            print("successfully created user", user?.user.uid ?? "" )
+            
+            guard let image = self.plusPhotoButton.imageView?.image else {return}
+            
+            guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
+            
+            
+            Storage.storage().reference().child("profile_image").putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                if let error = error {
+                    print("failed to upload image")
+                    return
+                }
+                
+                let profileimageURL = metadata?.storageReference?.downloadURL(completion: { (url, error) in
+                    if let error = error {
+                        print("failed to upload image to metadata")
+                    }
+                    
+                    guard let profileimageurl = (url as? URL)?.absoluteString else {return}
+                })
+                
+                print("Successfuly uploaded image")
+            })
+            
+//            guard let uid = user?.user.uid else {return}
+//            let values = [uid : 1]
+//            Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
+//                if let err = err {
+//                    print("Failed to save userinfo into db:" , err)
+//                }
+//
+//                print("Successfuly saved the user to database")
+//            })
+//
+//
+//        }
         
+    }
     }
     
     
