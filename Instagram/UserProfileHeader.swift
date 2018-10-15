@@ -18,16 +18,48 @@ class UserProfileHeader: UICollectionViewCell {
         return iv
     }()
     
+    let gridButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "grid"), for: .normal)
+        return button
+    }()
+    
+    let listButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "list"), for: .normal)
+        button.tintColor = UIColor(white: 0, alpha: 0.2)
+        return button
+    }()
+    
+    let bookmarkButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "ribbon"), for: .normal)
+        button.tintColor = UIColor(white: 0, alpha: 0.2)
+        return button
+    }()
+    
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .blue
+        backgroundColor = .white
         
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: self.leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
         profileImageView.layer.cornerRadius = 80 / 2
         profileImageView.clipsToBounds = true
+        
+        setupBottomToolbar()
     }
+    
+    fileprivate func setupBottomToolbar(){
+        let stackView = UIStackView(arrangedSubviews: [gridButton, listButton, bookmarkButton])
+        addSubview(stackView)
+        stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+    }
+    
+    
     
     var user: User? {
         didSet {
