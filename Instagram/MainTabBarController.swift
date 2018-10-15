@@ -25,4 +25,6 @@ class MainTabBarController : UITabBarController {
         
         viewControllers = [navController, UIViewController()]
     }
+    
+    //Pods are working now
 }
