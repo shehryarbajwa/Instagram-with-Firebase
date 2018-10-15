@@ -8,13 +8,22 @@
 
 import Foundation
 import Firebase
+import AssetsLibrary
 
 
 class UserProfileHeader: UICollectionViewCell {
     
+    var user: User? {
+        didSet {
+            setupProfileImage()
+            
+            usernamelabel.text = user?.username
+        }
+    }
+    
     let profileImageView: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .red
+        iv.image = UIImage(named: "shehryar")
         return iv
     }()
     
@@ -40,8 +49,32 @@ class UserProfileHeader: UICollectionViewCell {
     
     let usernamelabel : UILabel = {
         let label = UILabel()
-        label.text = "username"
+        label.text = "Shehryar"
         label.font = UIFont.boldSystemFont(ofSize: 14)
+        return label
+    }()
+    
+    let postslabel : UILabel = {
+        let label = UILabel()
+        label.text = "11/nposts"
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let followerslabel : UILabel = {
+        let label = UILabel()
+        label.text = "11/nposts"
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let followinglabel : UILabel = {
+        let label = UILabel()
+        label.text = "11/nposts"
+        label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
     
@@ -56,6 +89,17 @@ class UserProfileHeader: UICollectionViewCell {
         profileImageView.clipsToBounds = true
         
         setupBottomToolbar()
+        setupUserStatsView()
+        addSubview(usernamelabel)
+        usernamelabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
+        
+    }
+    
+    fileprivate func setupUserStatsView(){
+        let stackview = UIStackView(arrangedSubviews: [postslabel, followerslabel, followinglabel])
+        stackview.distribution = .fillEqually
+        addSubview(stackview)
+        stackview.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 50)
     }
     
     fileprivate func setupBottomToolbar(){
@@ -66,13 +110,6 @@ class UserProfileHeader: UICollectionViewCell {
         
     }
     
-    
-    
-    var user: User? {
-        didSet {
-            setupProfileImage()
-        }
-    }
     
     fileprivate func setupProfileImage() {
         guard let profileImageUrl = user?.profileImageUrl else { return }
