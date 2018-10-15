@@ -38,7 +38,12 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
-    
+    let usernamelabel : UILabel = {
+        let label = UILabel()
+        label.text = "username"
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,6 +62,8 @@ class UserProfileHeader: UICollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [gridButton, listButton, bookmarkButton])
         addSubview(stackView)
         stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        stackView.distribution = .fillEqually
+        
     }
     
     
