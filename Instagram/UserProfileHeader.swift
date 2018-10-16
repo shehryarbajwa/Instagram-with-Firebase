@@ -12,7 +12,7 @@ import AssetsLibrary
 
 
 class UserProfileHeader: UICollectionViewCell {
-    
+    //
     var user: User? {
         didSet {
             setupProfileImage()
