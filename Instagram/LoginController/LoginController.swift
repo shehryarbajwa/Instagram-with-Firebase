@@ -31,6 +31,8 @@ class LoginController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(signUpbutton)
         
+        navigationController?.isNavigationBarHidden = true
+        
         signUpbutton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         
 }
