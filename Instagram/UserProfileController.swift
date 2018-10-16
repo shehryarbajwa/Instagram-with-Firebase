@@ -43,9 +43,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         alertController.addAction(UIAlertAction(title: "Logout", style: .destructive, handler: { (_) in
             print("Loggot ing ")
         }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { (_) in
-            print("Cancel logging out")
-        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+            
         present(alertController, animated: true, completion: nil)
     }
     
