@@ -12,7 +12,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignupController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //Creating a PhotoButton using closures
     let plusPhotoButton: UIButton = {

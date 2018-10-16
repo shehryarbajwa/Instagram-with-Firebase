@@ -37,11 +37,17 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     }
     
     @objc func handleLogout(){
-        print("Loggingout")
         
         let alertController = UIAlertController(title: "Logout", message: "Are you sure", preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Logout", style: .destructive, handler: { (_) in
-            print("Loggot ing ")
+            
+            do {
+                try Auth.auth().signOut()
+                print("Logged out of Firebase")
+            }
+            catch let signOuterr{
+                print("Failed to sign out", signOuterr)
+            }
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
             

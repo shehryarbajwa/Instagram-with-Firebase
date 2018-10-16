@@ -8,9 +8,20 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class MainTabBarController : UITabBarController {
     override func viewDidLoad() {
+        
+        if Auth.auth().currentUser == nil {
+           // present(ViewController)
+            DispatchQueue.main.async {
+                let loginController = LoginController()
+                self.present(loginController, animated: true, completion: nil)
+            }
+            return
+        }
+        
         super.viewDidLoad()
         
         let layout = UICollectionViewFlowLayout()
