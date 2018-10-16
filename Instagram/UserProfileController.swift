@@ -28,7 +28,16 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        setUpLogout()
         
+    }
+    
+    fileprivate func setUpLogout(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear"), style: .plain, target: self, action: #selector(handleLogout))
+    }
+    
+    @objc func handleLogout(){
+        print("Loggingout")
     }
     
     
