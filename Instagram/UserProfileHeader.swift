@@ -32,7 +32,8 @@ class UserProfileHeader: UICollectionViewCell {
         return iv
     }()
     
-    //
+    //Step2:
+    //Creating a UIButton closure that is instantialized by creating a type of UIButton, then declaring that button and finally setting an image to the button for type normal
     
     let gridButton: UIButton = {
         let button = UIButton(type: .system)
@@ -61,6 +62,9 @@ class UserProfileHeader: UICollectionViewCell {
         return label
     }()
     
+    //Here, we add a label. The label is utilizing the NSMutableAttributableStringAPI to render the font to be bold, allow foreground color, have its textallignment and add the number of lines
+    
+    
     let postsLabel: UILabel = {
         let label = UILabel()
         
@@ -74,6 +78,8 @@ class UserProfileHeader: UICollectionViewCell {
         label.numberOfLines = 0
         return label
     }()
+    
+    //Same thing here, we add a Label and utilize different AttributedStringAPI methods to change the font type to be bold and 
     
     let followersLabel: UILabel = {
         let label = UILabel()
