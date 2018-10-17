@@ -172,6 +172,25 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         })
     }
     
+    let signInbutton : UIButton = {
+        let button = UIButton(type: .system)
+        
+        let attributedTitle = NSMutableAttributedString(string: "Already have an account?", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14) , NSAttributedStringKey.foregroundColor : UIColor.lightGray])
+        
+        attributedTitle.append(NSMutableAttributedString(string: " Sign In", attributes: [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 14) , NSAttributedStringKey.foregroundColor : UIColor.rgb(red: 17, green: 154, blue: 237) ]))
+        
+        
+        
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.setTitle("Don't have an account? Sign up", for: .normal)
+        button.addTarget(self, action: #selector(alreadyhaveaccount), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func alreadyhaveaccount(){
+        navigationController?.popViewController(animated: true)
+    }
+    
     
     //Adding the view to viewDidLoad and adding contraints
     override func viewDidLoad() {
@@ -179,9 +198,12 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         
         view.backgroundColor = .white
         
+        view.addSubview(signInbutton)
         view.addSubview(plusPhotoButton)
 
         plusPhotoButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 140)
+        
+        signInbutton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         
 
         plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

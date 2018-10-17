@@ -26,11 +26,16 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         fetchUser()
         
+        //Use the collectionView to register the ProfileHeader and the supplementaryViewofKind is UICollection.ElementKindSectionHeader with reUseIdentifier headerID. The header is the upperPart of the CollectionView.
+        
+        
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         setUpLogout()
         
     }
+    
+    
     
     fileprivate func setUpLogout(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
@@ -86,8 +91,6 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         header.user = self.user
         
-        //not correct
-        //header.addSubview(UIImageView())
         
         return header
     }
