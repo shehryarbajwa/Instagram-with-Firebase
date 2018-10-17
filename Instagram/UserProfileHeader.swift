@@ -21,11 +21,18 @@ class UserProfileHeader: UICollectionViewCell {
         }
     }
     
+    
+    //Create a profile image
+    //Step1:
+    //Create a UIImageView which then contains an image
+    //It is better to render an image to an imageView so that it becomes easier to apply animation to it
     let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named: "shehryar")
         return iv
     }()
+    
+    //
     
     let gridButton: UIButton = {
         let button = UIButton(type: .system)
