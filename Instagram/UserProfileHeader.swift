@@ -40,7 +40,7 @@ class UserProfileHeader: UICollectionViewCell {
         button.setImage(#imageLiteral(resourceName: "grid"), for: .normal)
         return button
     }()
-    
+    //Using the tintcolor allows you to make the color a bit transluscent
     let listButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "list"), for: .normal)
@@ -79,7 +79,7 @@ class UserProfileHeader: UICollectionViewCell {
         return label
     }()
     
-    //Same thing here, we add a Label and utilize different AttributedStringAPI methods to change the font type to be bold and 
+    //Same thing here, we add a Label and utilize different AttributedStringAPI methods to change the font type to be bold and
     
     let followersLabel: UILabel = {
         let label = UILabel()
@@ -108,7 +108,7 @@ class UserProfileHeader: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
-    
+    //By using the .layer option, we utilize animation and can then render the object with cornerRadius, with the borderWitdth, and the borderColor
     let editProfileButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Edit Profile", for: .normal)
@@ -122,6 +122,11 @@ class UserProfileHeader: UICollectionViewCell {
     }()
     
     
+    //Override init allows you to instantialize the collectionView and initialize using super.init(frame:frame)
+    //Within the collectionView, we add subviews to display our data within the collectionViewcell
+    //Similarly, within the initialization, we setup the anchors for the editProfileButton, profileImageView, and the username label
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -129,6 +134,7 @@ class UserProfileHeader: UICollectionViewCell {
         backgroundColor = .white
         
         addSubview(profileImageView)
+        
         profileImageView.anchor(top: topAnchor, left: self.leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
         profileImageView.layer.cornerRadius = 80 / 2
         profileImageView.clipsToBounds = true
@@ -141,12 +147,13 @@ class UserProfileHeader: UICollectionViewCell {
         addSubview(editProfileButton)
         
         
-        
         editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: followingLabel.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
         
         usernamelabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: postsLabel.rightAnchor, paddingTop: 200, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
         
     }
+    
+    //We setup a stackView to contain the postsLabel, followerslabel and the followinglabel to be included in a stackView. This allows us to arrangetheSubviews in a stackViews. StackViews allow allignment, spacing and spacing. Instead of using the storyboard and making changes, using StackView can help place views in a certain place with anchors. Distribution and allignment properties are used. Add the subView to the collectionView by using addSubview(stackView).
     
     fileprivate func setupUserStatsView(){
         let stackview = UIStackView(arrangedSubviews: [postsLabel, followersLabel, followingLabel])
@@ -154,6 +161,8 @@ class UserProfileHeader: UICollectionViewCell {
         addSubview(stackview)
         stackview.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 50)
     }
+    
+    //
     
     fileprivate func setupBottomToolbar(){
         
@@ -172,7 +181,6 @@ class UserProfileHeader: UICollectionViewCell {
         
         
         stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
-        
         topDividorView.anchor(top: stackView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
         bottomDividorView.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
         
@@ -181,6 +189,7 @@ class UserProfileHeader: UICollectionViewCell {
         
     }
     
+    //Download the profileimage from the user's Firebase Database. You need to select the url from the Firebase database, and then download the datataskwithURL. And then use the main.sync method to be used on the mainThread to cast the image since it involves using the UI. UI Related tasks are to be done on the main thread.
     
     fileprivate func setupProfileImage() {
         guard let profileImageUrl = user?.profileImageUrl else { return }
