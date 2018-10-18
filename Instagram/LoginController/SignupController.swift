@@ -8,9 +8,7 @@
 
 import UIKit
 import Firebase
-import FirebaseAuth
 import FirebaseDatabase
-import FirebaseStorage
 
 class SignupController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -106,12 +104,12 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         button.setTitleColor(.white, for: .normal)
         button.isEnabled = false
         
-        button.addTarget(self, action: #selector(handlesignup), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         
         return button
     }()
     
-    @objc func handlesignup(){
+    @objc func handleSignUp() {
         guard let email = emailTextField.text, !email.isEmpty else { return }
         guard let username = userNameTextField.text, !username.isEmpty else { return }
         guard let password = passwordTextField.text, !password.isEmpty else { return }
@@ -127,8 +125,7 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
             
             guard let image = self.plusPhotoButton.imageView?.image else { return }
             
-            guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else { return }
-
+            guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
             
             let filename = NSUUID().uuidString
             
@@ -142,11 +139,6 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
                 
                 // Firebase 5 Update: Must now retrieve downloadURL
                 storageRef.downloadURL(completion: { (downloadURL, err) in
-                    if let err = err {
-                        print("Failed to fetch downloadURL:", err)
-                        return
-                    }
-                    
                     guard let profileImageUrl = downloadURL?.absoluteString else { return }
                     
                     print("Successfully uploaded profile image:", profileImageUrl)
@@ -165,10 +157,15 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
                         
                         print("Successfully saved user info to db")
                         
+                        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else { return }
+                        
+    
+                        
+                        self.dismiss(animated: true, completion: nil)
+                        
                     })
                 })
             })
-            
         })
     }
     

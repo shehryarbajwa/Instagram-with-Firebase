@@ -123,7 +123,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
             self.collectionView?.reloadData()
             
         }) { (err) in
-            print("Failed to fetch user:", err)
+            print("Failed to fetchuser:", err)
         }
     }
 }
