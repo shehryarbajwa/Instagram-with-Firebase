@@ -38,24 +38,33 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     
     fileprivate func setUpLogout(){
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogOut))
     }
     
-    @objc func handleLogout(){
+    @objc func handleLogOut() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let alertController = UIAlertController(title: "Logout", message: "Are you sure", preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Logout", style: .destructive, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
             
             do {
                 try Auth.auth().signOut()
-                print("Logged out of Firebase")
+                
+                //what happens? we need to present some kind of login controller
+                let loginController = LoginController()
+                let navController = UINavigationController(rootViewController: loginController)
+                self.present(navController, animated: true, completion: nil)
+                
             }
-            catch let signOuterr{
-                print("Failed to sign out", signOuterr)
-            }
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
             
+            catch let signOutErr {
+                print("Failed to sign out:", signOutErr)
+            }
+            
+            
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
         present(alertController, animated: true, completion: nil)
     }
     

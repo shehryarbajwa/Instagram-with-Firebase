@@ -28,7 +28,6 @@ class UserProfileHeader: UICollectionViewCell {
     //It is better to render an image to an imageView so that it becomes easier to apply animation to it
     let profileImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "shehryar")
         return iv
     }()
     

@@ -99,7 +99,7 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
     
     let signUpButton : UIButton = {
         let button = UIButton.init(type: .system)
-        button.setTitle("Sign in", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         button.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
@@ -235,7 +235,7 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
 
 extension UIView {
     
-    //This is by far the most important function to be utilized and refactored. This allows you to create NSLayout contstraints, on the X and the Y Axis anchor. There is padding left and padding right. 
+    //This is by far the most important function to be utilized and refactored. This allows you to create NSLayout contstraints, on the X and the Y Axis anchor. There is padding left and padding right.
     
     func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?,  paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
         
