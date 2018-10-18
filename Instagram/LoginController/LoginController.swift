@@ -107,6 +107,10 @@ class LoginController: UIViewController {
             }
             
             print("Successfully logged back in with user.: " , user?.user.uid ?? "")
+            
+            guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+            
+            mainTabBarController.setupViewController()
             self.dismiss(animated: true, completion: nil)
             
             

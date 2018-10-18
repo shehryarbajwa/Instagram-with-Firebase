@@ -157,7 +157,9 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
                         
                         print("Successfully saved user info to db")
                         
-                        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else { return }
+                        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+                        
+                        mainTabBarController.setupViewController()
                         
     
                         
