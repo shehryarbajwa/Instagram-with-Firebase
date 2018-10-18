@@ -235,6 +235,8 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
 
 extension UIView {
     
+    //This is by far the most important function to be utilized and refactored. This allows you to create NSLayout contstraints, on the X and the Y Axis anchor. There is padding left and padding right. 
+    
     func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?,  paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
         
         translatesAutoresizingMaskIntoConstraints = false
