@@ -32,9 +32,22 @@ class MainTabBarController : UITabBarController {
         
     func setupViewController(){
         
+        //Modify this to add more icons to the TabBarController
+        
         //The view containing multiple views is a CollectionViewFlowLayout
         //The collectionViewFlow layout allows us to determine where to put what. Header, footer, tabBar
+        //Home Button
         
+        
+        let homeNavController = templateNavController("home_selected" , "home_unselected")
+       
+        
+        //Search
+        
+        let searchNavController = templateNavController("search_selected", "search_unselected")
+        
+        
+        //UserProfile
         let layout = UICollectionViewFlowLayout()
         let userProfileController = UserProfileController(collectionViewLayout: layout)
         
@@ -45,7 +58,16 @@ class MainTabBarController : UITabBarController {
         
         tabBar.tintColor = .black
         
-        viewControllers = [navController, UIViewController()]
+        viewControllers = [homeNavController , searchNavController , navController]
+        //viewControllers = [navController, UIViewController()]
+    }
+    
+    fileprivate func templateNavController(_ selectedImagestring: String , _ unselectedImagestring : String) -> UINavigationController {
+        let viewController = UIViewController()
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.tabBarItem.image = UIImage(named: unselectedImagestring)
+        navController.tabBarItem.selectedImage = UIImage(named: selectedImagestring)
+        return navController
     }
     
     //Pods are working now
