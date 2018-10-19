@@ -44,6 +44,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     @objc func handleLogOut() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        //In the UIAlertAction handler closure, try Auth.auth().signOut() to sign out from Firebase. Do this with a do, catch syntax.
+        
         alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
             
             do {
@@ -95,6 +97,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         return 10
     }
     
+    //Setup the SupplementatyView in the same way you set up the collectioNView normally
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! UserProfileHeader
         
@@ -107,6 +111,9 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)
     }
+    
+    //Fetch the user information from Firebase and check out what the snapshot refers to. Go to database, child of users and observe the single event of value. Then set the navigationItem's title to self.user?.username
+    
     
     var user: User?
     fileprivate func fetchUser() {
@@ -127,6 +134,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         }
     }
 }
+
+//Hold information regarding a user in a struct so this code can be used elsewhere. 
 
 struct User {
     let username: String

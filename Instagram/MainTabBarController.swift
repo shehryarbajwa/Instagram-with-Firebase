@@ -13,6 +13,10 @@ import Firebase
 class MainTabBarController : UITabBarController {
     override func viewDidLoad() {
         
+        //Once this viww is loaded, you need to check if the currentUser has been authenticated. If he has not been authenticated, then we push the view's to the LoginController and present that controller.
+        //
+        
+        
         if Auth.auth().currentUser == nil {
             
            // present(ViewController)
@@ -27,6 +31,9 @@ class MainTabBarController : UITabBarController {
     }
         
     func setupViewController(){
+        
+        //The view containing multiple views is a CollectionViewFlowLayout
+        //The collectionViewFlow layout allows us to determine where to put what. Header, footer, tabBar
         
         let layout = UICollectionViewFlowLayout()
         let userProfileController = UserProfileController(collectionViewLayout: layout)
