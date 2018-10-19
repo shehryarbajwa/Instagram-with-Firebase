@@ -15,7 +15,6 @@ class LoginController: UIViewController {
     //We created a UIView which will contain the logo. We instantiateed the UIView and then added an imageView which contained a UIImage. Then we added it to the subview. The content mode of the logo is to be scaleAspectFit/scaletoFill. Then we add the anchoring. We don't set the top or the left bottom or any constraint and just set the height and width. Instead we equal the CenterXAnchor and CenterYAnchor to the View's centerX and CenterY.
     
     
-    
     let logoContainerView : UIView = {
         let view = UIView()
         
@@ -94,6 +93,10 @@ class LoginController: UIViewController {
     @objc func handlesignup(){
         
     }
+    
+    //The loginbutton has a target that allows it to handle when a user tries to log into an application. The Auth.auth() feature allows you to sign in via the firebase API for login, password and email address. The mainTabBarController allows you to utilize the UIApplication.shared.keyWindow?.rootViewController as the VC to be used each time a login occurs.
+    
+    //UIApplication.shared.keyWindow?.rootViewController allows the app to login again and again displaying different data for each unique user.
     
     @objc func handleLogin(){
         
