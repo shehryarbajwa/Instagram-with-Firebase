@@ -165,6 +165,8 @@ class UserProfileHeader: UICollectionViewCell {
     
     fileprivate func setupBottomToolbar(){
         
+        
+        //Creating bottomToolbar so the UI is sleek and clean and adjustable to all screen sizes
         let topDividorView = UIView()
         topDividorView.backgroundColor = UIColor.lightGray
         

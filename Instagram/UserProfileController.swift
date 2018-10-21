@@ -38,6 +38,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     
     fileprivate func setUpLogout(){
+        //By keeping renderingMode to be original u keep the image as it is in the assets
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogOut))
     }
     
