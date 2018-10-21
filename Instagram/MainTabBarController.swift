@@ -10,13 +10,44 @@ import Foundation
 import UIKit
 import Firebase
 
-class MainTabBarController : UITabBarController {
+class MainTabBarController : UITabBarController, UITabBarControllerDelegate {
+    
+    //Delegate method to disable selecting a viewController from the TabBarController
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        //The index loops through all the items in the viewControllers array and returns false if the count is 2 which contains our AddPhotoSelector
+        let index = viewControllers?.firstIndex(of: viewController)
+        if index == 2 {
+            
+            //Create a layout for the collectionViewCell
+            //Initialize the class we declared in photoSelectorController
+            //Embed the VC in a nav controller and present it
+            //A concrete layout object that organizes items into a grid with optional header and footer views for each section.
+            
+            let layout = UICollectionViewFlowLayout()
+            let photoSelectorController = Photoselector(collectionViewLayout: layout)
+            let navController = UINavigationController(rootViewController: photoSelectorController)
+            
+            present(navController, animated: true, completion: nil)
+            
+            
+            
+            return false
+        }
+        print(index)
+        
+        return true
+    }
+    
+    
+    
+    
     override func viewDidLoad() {
         
         //Once this viww is loaded, you need to check if the currentUser has been authenticated. If he has not been authenticated, then we push the view's to the LoginController and present that controller.
         //
         
-        
+        self.delegate = self
         if Auth.auth().currentUser == nil {
             
            // present(ViewController)
