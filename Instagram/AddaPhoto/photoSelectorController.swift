@@ -45,6 +45,8 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = 10
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchOptions.sortDescriptors = [sortDescriptor]
         let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
         allPhotos.enumerateObjects { (asset, count, stop) in
@@ -101,7 +103,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     //Number of cells to display
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return images.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
