@@ -22,7 +22,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         setupNavigationButtons()
         
         
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView?.register(PhotoSelectorCell.self, forCellWithReuseIdentifier: cellID)
         //This allows us to create a header in our collectionView
         collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
         
@@ -53,10 +53,14 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
             let targetSize = CGSize(width: 350, height: 350)
             let options = PHImageRequestOptions()
             options.isSynchronous = true
-            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, info) in
+            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
                 print(image)
                 if let image = image {
                     self.images.append(image)
+                }
+                
+                if count == allPhotos.count {
+                    self.collectionView?.reloadData()
                 }
                 
             })
@@ -97,13 +101,16 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     //Number of cells to display
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return 5
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        cell.backgroundColor = .blue
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! PhotoSelectorCell
+        
+        cell.photoImageView.image = images[indexPath.item]
+       // cell.backgroundColor = .blue
         
         return cell
     }
