@@ -34,7 +34,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func fetchPhotos(){
         print("Fetcing")
-        //Fetch photos within iOS Library
+        //Fetch photos within iOS Library, import Photos
         //Step1: we declare FetchOptions using PHFetchOptions
         //Step2: We declare a limit of 10 photos to be shown. We can make this as big as the size of the library
         //Step3:Use fetchAssets property and fetch the image with the fetchOptions
@@ -107,10 +107,10 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        //Once we declare a newCollectionCell, we can then use its imageView images to be an array of images and display it on each IndexPath. We conform our collectionView to be the new view that we have created. Then set the images of the collectionView to be images we declared in the array above
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! PhotoSelectorCell
-        
+        //By doing this we set the cell's image to be the images we have fetched
         cell.photoImageView.image = images[indexPath.item]
        // cell.backgroundColor = .blue
         
