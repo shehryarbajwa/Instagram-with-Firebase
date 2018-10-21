@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Photos
 
 class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -24,6 +25,43 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
         //This allows us to create a header in our collectionView
         collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
+        
+        fetchPhotos()
+    }
+    
+    
+    var images = [UIImage]()
+    
+    func fetchPhotos(){
+        print("Fetcing")
+        //Fetch photos within iOS Library
+        //Step1: we declare FetchOptions using PHFetchOptions
+        //Step2: We declare a limit of 10 photos to be shown. We can make this as big as the size of the library
+        //Step3:Use fetchAssets property and fetch the image with the fetchOptions
+        //Step4:Then using enumerateObjects, we will go through the imageLibrary one by one and display the images.
+        //Step5: Using the imageManager.default property we would then have to setup the targetsize of the images.
+        //Step6: This is when we request these images and fill in contentMode
+        //Step7: We need to show large sized aspects of them rather than smaller jpg version so we use options as PHImageRequestOptions(). Then we make sure that they are synchronous since they will be being updated on the mainQueue.
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = 10
+        let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
+        allPhotos.enumerateObjects { (asset, count, stop) in
+            print(asset)
+            let imageManager = PHImageManager.default()
+            let targetSize = CGSize(width: 350, height: 350)
+            let options = PHImageRequestOptions()
+            options.isSynchronous = true
+            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, info) in
+                print(image)
+                if let image = image {
+                    self.images.append(image)
+                }
+                
+            })
+            
+        }
     }
     //This allows us to use the delegate method that allows us to change the layout of the collectionView to a size of our choice
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
