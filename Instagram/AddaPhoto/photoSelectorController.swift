@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    
+    let cellID = "cellID"
+    let headerID = "headerID"
     override func viewDidLoad() {
         
         collectionView?.delegate = self
@@ -17,9 +20,10 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.backgroundColor = .yellow
         setupNavigationButtons()
         
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellID")
+        
+        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
         //This allows us to create a header in our collectionView
-        collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerID")
+        collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
     }
     //This allows us to use the delegate method that allows us to change the layout of the collectionView to a size of our choice
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -32,12 +36,16 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         let width = view.frame.width
         return CGSize(width: width, height: width)
     }
+    //Return a line inset between header and the rest of the collectionCells
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+    }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableCell(withReuseIdentifier: "headerID", for: indexPath)
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath)
         
         //Can't create this until you provide a reference size for the header
-        header.backgroundColor = .red
+        header.backgroundColor = .yellow
         return header
         
     }
@@ -56,7 +64,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellID", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
         cell.backgroundColor = .blue
         
         return cell
