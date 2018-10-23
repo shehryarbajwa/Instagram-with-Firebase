@@ -24,13 +24,23 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         collectionView?.register(PhotoSelectorCell.self, forCellWithReuseIdentifier: cellID)
         //This allows us to create a header in our collectionView
-        collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
+        collectionView?.register(PhotoSelectorHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
         
         fetchPhotos()
     }
     
     
     var images = [UIImage]()
+    
+    
+    
+    fileprivate func assetsFetchOptions() -> PHFetchOptions {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = 10
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchOptions.sortDescriptors = [sortDescriptor]
+        return fetchOptions
+    }
     
     func fetchPhotos(){
         print("Fetcing")
@@ -43,10 +53,6 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         //Step6: This is when we request these images and fill in contentMode
         //Step7: We need to show large sized aspects of them rather than smaller jpg version so we use options as PHImageRequestOptions(). Then we make sure that they are synchronous since they will be being updated on the mainQueue.
         
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 10
-        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
-        fetchOptions.sortDescriptors = [sortDescriptor]
         let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
         allPhotos.enumerateObjects { (asset, count, stop) in
@@ -61,6 +67,12 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
                     self.images.append(image)
                 }
                 
+                
+                //This will allow us to set the firstImage to be the header's image. The first time the PhotoManager enumerates through the imageArray, the selectedImage is nil.
+                if self.selectedImage == nil {
+                    self.selectedImage = image
+                }
+                
                 if count == allPhotos.count {
                     self.collectionView?.reloadData()
                 }
@@ -71,8 +83,12 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+        self.selectedImage = images[indexPath.item]
+        //Reload the data so we can render it to the header. This causes the collection view to discard any currently visible items (including placeholders) and recreate items based on the current state of the data source object
+        self.collectionView?.reloadData()
     }
+    
+    var selectedImage : UIImage?
     //This allows us to use the delegate method that allows us to change the layout of the collectionView to a size of our choice
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //By adding this line, we can make our collectionviewcells more adaptable and of an equal width, height
@@ -90,7 +106,9 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath)
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! PhotoSelectorHeader
+        
+        header.photoImageView.image = selectedImage
         
         //Can't create this until you provide a reference size for the header
         header.backgroundColor = .yellow
