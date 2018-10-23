@@ -32,6 +32,11 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var images = [UIImage]()
     
+    //We need to create a PHAsset Array and load the cells again once they have loaded
+    
+    var assets = [PHAsset]()
+    
+    
     
     
     fileprivate func assetsFetchOptions() -> PHFetchOptions {
@@ -61,13 +66,14 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
             allPhotos.enumerateObjects { (asset, count, stop) in
                 print(count)
                 let imageManager = PHImageManager.default()
-                let targetSize = CGSize(width: 600, height: 600)
+                let targetSize = CGSize(width: 200, height: 200)
                 let options = PHImageRequestOptions()
                 options.isSynchronous = true
                 imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
                     print(image)
                     if let image = image {
                         self.images.append(image)
+                        self.assets.append(asset)
                     }
                     
                     
@@ -118,6 +124,21 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! PhotoSelectorHeader
         
         header.photoImageView.image = selectedImage
+        
+        if let selectedimage = selectedImage  {
+            if let index = self.images.firstIndex(of: selectedimage) {
+               let selectedAsset = self.assets[index]
+                
+                let imageManager = PHImageManager.default()
+                let targetSize = CGSize(width: 1500, height: 1500)
+                imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .aspectFill, options: nil) { (image, info) in
+                    header.photoImageView.image = image
+                }
+            }
+        }
+        
+        
+        
         
         //Can't create this until you provide a reference size for the header
         header.backgroundColor = .yellow
