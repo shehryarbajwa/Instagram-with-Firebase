@@ -32,14 +32,14 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var images = [UIImage]()
     
-    //We need to create a PHAsset Array and load the cells again once they have loaded
-    
+    //We need to create a PHAsset Array and load the cells again once they have loaded. PHAsset is a representation of an image, video, or Live Photo in the Photos library.
     var assets = [PHAsset]()
     
     
     
-    
+    //We can save the PHFetchOptions for reusing the code again and in a privatefile instead of using it within FetchOptions phtos
     fileprivate func assetsFetchOptions() -> PHFetchOptions {
+        
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = 30
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
@@ -73,6 +73,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
                     print(image)
                     if let image = image {
                         self.images.append(image)
+                        //append the requested image in the empty assets array
                         self.assets.append(asset)
                     }
                     
@@ -98,6 +99,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //We set the selectedImage to be the images from the indexPaths items
         self.selectedImage = images[indexPath.item]
         //Reload the data so we can render it to the header. This causes the collection view to discard any currently visible items (including placeholders) and recreate items based on the current state of the data source object
         self.collectionView?.reloadData()
@@ -124,6 +126,11 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! PhotoSelectorHeader
         
         header.photoImageView.image = selectedImage
+        
+        //Here we select the selectedImage. SelectedImage is the image we have clicked on. We set the properties in selectItemat Delegate method
+        //Set its index. Then make sure that our assets emptyArray
+        //We set the index of the selectedAsset to be same index of the image we have selected
+        //Once we do this, we then request the imageAgain using the ImageManager's request Image option
         
         if let selectedimage = selectedImage  {
             if let index = self.images.firstIndex(of: selectedimage) {

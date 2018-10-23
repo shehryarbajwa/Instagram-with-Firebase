@@ -11,6 +11,9 @@ import UIKit
 
 class PhotoSelectorHeader : UICollectionViewCell {
     
+    //With the header, we add the sameThings. We add an imageView which will then cast the different images from the imagesArray
+    //Add the subview within ViewDidload and set its anchor
+    
     let photoImageView : UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
