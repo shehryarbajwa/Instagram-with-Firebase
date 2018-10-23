@@ -36,7 +36,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     
     fileprivate func assetsFetchOptions() -> PHFetchOptions {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 10
+        fetchOptions.fetchLimit = 30
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
         return fetchOptions
@@ -53,12 +53,12 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         //Step6: This is when we request these images and fill in contentMode
         //Step7: We need to show large sized aspects of them rather than smaller jpg version so we use options as PHImageRequestOptions(). Then we make sure that they are synchronous since they will be being updated on the mainQueue.
         
-        let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        let allPhotos = PHAsset.fetchAssets(with: .image, options: assetsFetchOptions())
         
         allPhotos.enumerateObjects { (asset, count, stop) in
-            print(asset)
+            print(count)
             let imageManager = PHImageManager.default()
-            let targetSize = CGSize(width: 350, height: 350)
+            let targetSize = CGSize(width: 600, height: 600)
             let options = PHImageRequestOptions()
             options.isSynchronous = true
             imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
