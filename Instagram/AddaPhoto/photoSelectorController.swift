@@ -18,7 +18,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         collectionView?.delegate = self
         super.viewDidLoad()
-        collectionView?.backgroundColor = .yellow
+        collectionView?.backgroundColor = .white
         setupNavigationButtons()
         
         
@@ -55,6 +55,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         let allPhotos = PHAsset.fetchAssets(with: .image, options: assetsFetchOptions())
         
+        //Running this on the background queue will free up more more memory for the mainQueue
         
         DispatchQueue.global(qos: .background).async {
             allPhotos.enumerateObjects { (asset, count, stop) in
@@ -74,9 +75,11 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
                     if self.selectedImage == nil {
                         self.selectedImage = image
                     }
-                    
-                    if count == allPhotos.count {
-                        self.collectionView?.reloadData()
+                    //Once the background queue loads up, we need to reload the data for the collectionView
+                    if count == allPhotos.count - 1 {
+                        DispatchQueue.main.async {
+                            self.collectionView?.reloadData()
+                        }
                     }
                     
                 })
