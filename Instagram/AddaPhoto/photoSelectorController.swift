@@ -69,6 +69,10 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
             
         }
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+    }
     //This allows us to use the delegate method that allows us to change the layout of the collectionView to a size of our choice
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //By adding this line, we can make our collectionviewcells more adaptable and of an equal width, height
