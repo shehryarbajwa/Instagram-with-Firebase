@@ -55,31 +55,37 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         let allPhotos = PHAsset.fetchAssets(with: .image, options: assetsFetchOptions())
         
-        allPhotos.enumerateObjects { (asset, count, stop) in
-            print(count)
-            let imageManager = PHImageManager.default()
-            let targetSize = CGSize(width: 600, height: 600)
-            let options = PHImageRequestOptions()
-            options.isSynchronous = true
-            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
-                print(image)
-                if let image = image {
-                    self.images.append(image)
-                }
+        
+        DispatchQueue.global(qos: .background).async {
+            allPhotos.enumerateObjects { (asset, count, stop) in
+                print(count)
+                let imageManager = PHImageManager.default()
+                let targetSize = CGSize(width: 600, height: 600)
+                let options = PHImageRequestOptions()
+                options.isSynchronous = true
+                imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
+                    print(image)
+                    if let image = image {
+                        self.images.append(image)
+                    }
+                    
+                    
+                    //This will allow us to set the firstImage to be the header's image. The first time the PhotoManager enumerates through the imageArray, the selectedImage is nil.
+                    if self.selectedImage == nil {
+                        self.selectedImage = image
+                    }
+                    
+                    if count == allPhotos.count {
+                        self.collectionView?.reloadData()
+                    }
+                    
+                })
                 
-                
-                //This will allow us to set the firstImage to be the header's image. The first time the PhotoManager enumerates through the imageArray, the selectedImage is nil.
-                if self.selectedImage == nil {
-                    self.selectedImage = image
-                }
-                
-                if count == allPhotos.count {
-                    self.collectionView?.reloadData()
-                }
-                
-            })
-            
+            }
         }
+        
+        
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
