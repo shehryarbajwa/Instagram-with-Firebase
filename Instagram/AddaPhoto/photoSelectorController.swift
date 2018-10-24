@@ -194,7 +194,14 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     @objc func handlenext(){
-        dismiss(animated: true, completion: nil)
+        
+        //Initialize the class SharePhotoController to be an empty UIViewController. Then push the ViewController to the navigationController.
+        let sharePhotoController = SharePhotoController()
+        let ShareController = navigationController?.pushViewController(sharePhotoController, animated: true)
+        
+        
+        
+        
     }
     
     @objc func cancel(){
