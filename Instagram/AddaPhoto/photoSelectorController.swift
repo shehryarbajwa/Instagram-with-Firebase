@@ -136,7 +136,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! PhotoSelectorHeader
         
-        //Header's photoImageView refers to the selectedImage
+        //Header's photoImageView refers to the selectedImage which is the currentImage that the user chose
         header.photoImageView.image = selectedImage
         
         self.header = header
@@ -153,6 +153,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
                 let imageManager = PHImageManager.default()
                 let targetSize = CGSize(width: 600, height: 600)
                 imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .aspectFill, options: nil) { (image, info) in
+                    
                     header.photoImageView.image = image
                 }
             }
@@ -205,12 +206,10 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         //Initialize the class SharePhotoController to be an empty UIViewController. Then push the ViewController to the navigationController.
         let sharePhotoController = SharePhotoController()
+        
+        //Here we change the value of the property selectedImage and assign it the header's photoImageView's image
         sharePhotoController.selectedImage = header?.photoImageView.image
         let ShareController = navigationController?.pushViewController(sharePhotoController, animated: true)
-        
-        
-        
-        
     }
     
     @objc func cancel(){

@@ -11,9 +11,14 @@ import UIKit
 class SharePhotoController : UIViewController {
     
     
+    //This is the view that we create for adding the share ViewController
+    //SelectedImage refers to the optional value of UIImage
+    
+    
+    
     var selectedImage : UIImage? {
         
-        //What is this property?
+        //What is this property? DidSet is a property observer that observes the changes in a property's values. They are called each time a value is set for a property. Property observers are declared with var and not let. Once there is a change in the selectedImage we change the imageView's image to be the selectedimage
         didSet {
             print(selectedImage)
             
@@ -25,9 +30,9 @@ class SharePhotoController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
-        
+        //Add a barButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(handleShare))
-        
+        //SetUpImageandTextViews
         setupImageandTextViews()
         
     }
