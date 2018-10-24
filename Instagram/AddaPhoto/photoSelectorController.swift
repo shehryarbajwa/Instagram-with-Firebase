@@ -103,6 +103,12 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         self.selectedImage = images[indexPath.item]
         //Reload the data so we can render it to the header. This causes the collection view to discard any currently visible items (including placeholders) and recreate items based on the current state of the data source object
         self.collectionView?.reloadData()
+        
+        //To move the viewall the way to the top
+        
+        let indexPath = IndexPath(item: 0 , section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        
     }
     
     var selectedImage : UIImage?
@@ -137,7 +143,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
                let selectedAsset = self.assets[index]
                 
                 let imageManager = PHImageManager.default()
-                let targetSize = CGSize(width: 1500, height: 1500)
+                let targetSize = CGSize(width: 600, height: 600)
                 imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .aspectFill, options: nil) { (image, info) in
                     header.photoImageView.image = image
                 }
