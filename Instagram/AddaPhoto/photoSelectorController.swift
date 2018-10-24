@@ -128,10 +128,18 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         return UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
     }
     
+    
+    
+    //Header here refers to the PhotoSelectorHeader class
+    var header : PhotoSelectorHeader?
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! PhotoSelectorHeader
         
+        //Header's photoImageView refers to the selectedImage
         header.photoImageView.image = selectedImage
+        
+        self.header = header
         
         //Here we select the selectedImage. SelectedImage is the image we have clicked on. We set the properties in selectItemat Delegate method
         //Set its index. Then make sure that our assets emptyArray
@@ -197,6 +205,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         //Initialize the class SharePhotoController to be an empty UIViewController. Then push the ViewController to the navigationController.
         let sharePhotoController = SharePhotoController()
+        sharePhotoController.selectedImage = header?.photoImageView.image
         let ShareController = navigationController?.pushViewController(sharePhotoController, animated: true)
         
         
