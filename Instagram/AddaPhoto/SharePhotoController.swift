@@ -11,7 +11,15 @@ import UIKit
 class SharePhotoController : UIViewController {
     
     
-    var selectedImage : UIImage?
+    var selectedImage : UIImage? {
+        
+        //What is this property?
+        didSet {
+            print(selectedImage)
+            
+            self.imageView.image = selectedImage
+        }
+    }
     
     
     override func viewDidLoad() {
@@ -24,11 +32,20 @@ class SharePhotoController : UIViewController {
         
     }
     
-    let imageView : UIImageView  = {
+    var imageView : UIImageView  = {
         let iv = UIImageView()
         iv.backgroundColor = .red
         iv.contentMode = .scaleAspectFill
+        
+        //What is this property?
+        iv.clipsToBounds = true
         return iv
+    }()
+    
+    let textView : UITextView = {
+        let tv = UITextView()
+        tv.font = UIFont.systemFont(ofSize: 14)
+        return tv
     }()
     
     fileprivate func setupImageandTextViews() {
@@ -43,6 +60,9 @@ class SharePhotoController : UIViewController {
         containerView.anchor(top: topLayoutGuide.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 100)
         
         imageView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 84, height: 0)
+        
+        containerView.addSubview(textView)
+        textView.anchor(top: containerView.topAnchor, left: imageView.rightAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     
