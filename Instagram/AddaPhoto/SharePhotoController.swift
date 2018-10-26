@@ -14,7 +14,7 @@ class SharePhotoController : UIViewController {
     //This is the view that we create for adding the share ViewController
     //SelectedImage refers to the optional value of UIImage
     
-    
+    //
     
     var selectedImage : UIImage? {
         
