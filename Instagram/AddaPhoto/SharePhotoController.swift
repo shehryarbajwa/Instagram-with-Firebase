@@ -92,6 +92,10 @@ class SharePhotoController : UIViewController {
         let filename = NSUUID().uuidString
         //Access storage and put the child in storage titled posts
         //Use putData to upload the image
+        //Create a child in Storage named posts
+        //We are saving the images in stroage which is according to the use of storage vs Firebase Database. By creating a child posts we use /posts in Firebase. We save them with the filename which is randomized each time we save an image url
+        //storageRef.downloadURL downloads that URL and then uploads that url to Database
+        
         let storageRef = Storage.storage().reference().child("posts").child(filename)
         storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
             
@@ -100,17 +104,20 @@ class SharePhotoController : UIViewController {
                 print("Failed to upload post image:", err)
                 return
             }
-            //Save the URL in Firebase by invoking this method and downloading this data on backend
+            
+            //Save the URL in Firebase and then save this in the Database. Our job of adding an image is done to Storage. Now we upload this iamge to DB for used as a dictionary in JSON format
+            //
+            
             storageRef.downloadURL(completion: { (downloadURL, err) in
                 if let err = err {
                     print("Failed to fetch downloadURL:", err)
                     return
                 }
                 guard let imageUrl = downloadURL?.absoluteString else { return }
-                
-                print("Successfully uploaded post image:", imageUrl)
-                
-                self.savetoDatabaseWithImageUrl(imageUrl: imageUrl)
+            
+             print("Successfully uploaded post image:")
+            
+               self.savetoDatabaseWithImageUrl(imageUrl: imageUrl)
             })
         }
     }
@@ -132,14 +139,22 @@ class SharePhotoController : UIViewController {
         //*Firebase Storage just only store data like memory card.It is specially used for store backend data of app.
         
         guard let postImage = selectedImage else { return }
-        guard let caption = textView.text else { return }
+       guard let caption = textView.text else { return }
+        
+        //Use uid to authenticate the current user
+        //Create a posts reference with the currentUserID
+        //
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
+        //Create posts within database with each UID
         let userPostRef = Database.database().reference().child("posts").child(uid)
+        //childByAutoId generates a new child location using a unique key and returns a FIRDatabaseReference to it. This is useful when the children of a Firebase Database location represent a list of items.
         let ref = userPostRef.childByAutoId()
-        
+        //Values refers to the dictionary JSON which we create. We create imageWidth, caption, imageWidth to be the image's diwth. The date to be the timeIntervalSince 1970
         let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImage.size.width, "imageHeight": postImage.size.height, "creationDate": Date().timeIntervalSince1970] as [String : Any]
+
+        //Update childValues with the above Values dictionary. This is all jSON data. This is how you create jSON data and this is the data that you can use to run algorithms on
+        
         
         ref.updateChildValues(values) { (err, ref) in
             if let err = err {
@@ -147,13 +162,13 @@ class SharePhotoController : UIViewController {
                 print("Failed to save post to DB", err)
                 return
             }
-            
+
             print("Successfully saved post to DB")
             self.dismiss(animated: true, completion: nil)
         }
     }
     
-    override var prefersStatusBarHidden: Bool {
+        override var prefersStatusBarHidden: Bool {
         return true
     }
     
