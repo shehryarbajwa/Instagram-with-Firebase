@@ -131,26 +131,26 @@ class SharePhotoController : UIViewController {
         
         //*Firebase Storage just only store data like memory card.It is specially used for store backend data of app.
         
-        guard let postimage = selectedImage else {return}
-        guard let caption = textView.text else {return}
-        guard let uid = Auth.auth().currentUser?.uid else {return}
+        guard let postImage = selectedImage else { return }
+        guard let caption = textView.text else { return }
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
+        let userPostRef = Database.database().reference().child("posts").child(uid)
+        let ref = userPostRef.childByAutoId()
         
-        let userPostReference = Database.database().reference().child("posts").child(uid)
+        let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImage.size.width, "imageHeight": postImage.size.height, "creationDate": Date().timeIntervalSince1970] as [String : Any]
         
-        let ref = userPostReference.childByAutoId()
-        let values = ["imageURL" : imageUrl]
         ref.updateChildValues(values) { (err, ref) in
             if let err = err {
-                print("Failed to save post to DB" , err)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                print("Failed to save post to DB", err)
                 return
             }
             
-            print("Successfuly saved post to DB")
+            print("Successfully saved post to DB")
+            self.dismiss(animated: true, completion: nil)
         }
-        
-        
     }
     
     override var prefersStatusBarHidden: Bool {
