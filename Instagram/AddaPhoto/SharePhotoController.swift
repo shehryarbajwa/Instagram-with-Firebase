@@ -79,7 +79,7 @@ class SharePhotoController : UIViewController {
         //We choose the uploadData to be a JPEG Image
         //We create a filename for it to be used in the Firebase storage.
         //We use the putData builtin method to upload this data to Firebase Storage
-        
+        //We call the downloadURL method from StorageReference
         
         guard let image = selectedImage else {return}
         
@@ -104,7 +104,7 @@ class SharePhotoController : UIViewController {
                 
                 print("Successfully uploaded image" , imageurl)
                 
-                //self.savetoDatabaseWithImageUrl(imageUrl: imageurl)
+                self.savetoDatabaseWithImageUrl(imageUrl: imageurl)
                
                 
             })
@@ -112,6 +112,18 @@ class SharePhotoController : UIViewController {
             print("Successfully uploaded post image" )
             
         }
+    }
+    
+    fileprivate func savetoDatabaseWithImageUrl(imageUrl: String){
+        
+        guard let postimage = selectedImage else {return}
+        guard let caption = textView.text else {return}
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        let userPostReference = Database.database().reference().child("posts").child(uid)
+        
+        
+        
     }
     
     override var prefersStatusBarHidden: Bool {
