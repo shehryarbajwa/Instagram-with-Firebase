@@ -73,7 +73,6 @@ class SharePhotoController : UIViewController {
     
     
     @objc func handleShare(){
-        print("Sharing photo")
         
         //We make image to be the selectedImage
         //We choose the uploadData to be a JPEG Image
@@ -81,47 +80,75 @@ class SharePhotoController : UIViewController {
         //We use the putData builtin method to upload this data to Firebase Storage
         //We call the downloadURL method from StorageReference
         
-        guard let image = selectedImage else {return}
-        
+        //Step1: Make sure the caption is not empty!
+        guard let caption = textView.text, !caption.isEmpty else { return }
+        //Unwrap the selectedImage
+        guard let image = selectedImage else { return }
+        //Upload the image in JPEG format
         guard let uploadData = UIImageJPEGRepresentation(image, 0.5) else {return}
         
-        
-        //Filename is a random string of letters and numbers
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        //The filename that you want to store the posts under
         let filename = NSUUID().uuidString
-        Storage.storage().reference().child(filename).putData(uploadData, metadata: nil) { (metadata, err) in
+        //Access storage and put the child in storage titled posts
+        //Use putData to upload the image
+        let storageRef = Storage.storage().reference().child("posts").child(filename)
+        storageRef.putData(uploadData, metadata: nil) { (metadata, err) in
+            
             if let err = err {
-                print("Failed to upload Image" , err)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                print("Failed to upload post image:", err)
                 return
             }
-            
-            StorageReference().downloadURL(completion: { (downloadurl, error) in
-                if let error = error {
-                    print("Failed to fetch download URL")
+            //Save the URL in Firebase by invoking this method and downloading this data on backend
+            storageRef.downloadURL(completion: { (downloadURL, err) in
+                if let err = err {
+                    print("Failed to fetch downloadURL:", err)
                     return
                 }
+                guard let imageUrl = downloadURL?.absoluteString else { return }
                 
-                guard let imageurl = downloadurl?.absoluteString else {return}
+                print("Successfully uploaded post image:", imageUrl)
                 
-                print("Successfully uploaded image" , imageurl)
-                
-                self.savetoDatabaseWithImageUrl(imageUrl: imageurl)
-               
-                
+                self.savetoDatabaseWithImageUrl(imageUrl: imageUrl)
             })
-            
-            print("Successfully uploaded post image" )
-            
         }
     }
     
     fileprivate func savetoDatabaseWithImageUrl(imageUrl: String){
         
+        //The Firebase Realtime Database stores JSON application data, like game state or chat messages, and synchronizes changes instantly across all connected devices.
+        
+        //Firebase Remote Config stores developer-specified key-value pairs to change the behavior and appearance of your app without requiring users to download an update.
+        
+        //Firebase Hosting hosts the HTML, CSS, and JavaScript for your website as well as other developer-provided assets like graphics, fonts, and icons.
+            
+         //   Firebase Storage stores files such as images, videos, and audio as well as other user-generated content
+        
+        //For Storing images, videos and audio, Storage is useful. For game state or chat messages and Json application data Database is used. In our app, we uploadImages to Storage and text to Database aswell as the imageURL.
+        
+        //Realtime database store data only json format and it is specially used in app where data is synchronized concurrently like ola app(user location),sensex(Nifty) app where data not persist .
+        
+        //*Firebase Storage just only store data like memory card.It is specially used for store backend data of app.
+        
         guard let postimage = selectedImage else {return}
         guard let caption = textView.text else {return}
         guard let uid = Auth.auth().currentUser?.uid else {return}
         
+        
+        
         let userPostReference = Database.database().reference().child("posts").child(uid)
         
+        let ref = userPostReference.childByAutoId()
+        let values = ["imageURL" : imageUrl]
+        ref.updateChildValues(values) { (err, ref) in
+            if let err = err {
+                print("Failed to save post to DB" , err)
+                return
+            }
+            
+            print("Successfuly saved post to DB")
+        }
         
         
     }
