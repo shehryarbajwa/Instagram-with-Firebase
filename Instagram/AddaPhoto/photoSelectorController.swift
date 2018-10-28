@@ -70,7 +70,6 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
                 let options = PHImageRequestOptions()
                 options.isSynchronous = true
                 imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
-                    print(image)
                     if let image = image {
                         self.images.append(image)
                         //append the requested image in the empty assets array

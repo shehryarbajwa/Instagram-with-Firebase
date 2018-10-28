@@ -36,16 +36,47 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         fetchPosts()
         
     }
+    //Create an array which is empty which contains the value of the posts
+    var Posts = [Post]()
+    
     
     fileprivate func fetchPosts(){
-        print("123")
         
         //We are accessing the current user's uid which also takes place in the database's uid
-        //Lets inspect the database
+        //Lets inspect the database. Within the database elements there is the child posts, which then has another child called the currentUser which then holds the different data objects
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        
-        Database.database().reference().child("posts").child(uid)
-        
+        //By observing the single event of the posts child, we can then print the snapshot's value and print it out
+        //This will print all the data that is associated with the profile
+        let ref = Database.database().reference().child("posts").child(uid)
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            print(snapshot.value)
+            //We cast the jSon returned data in a dictionary that we can later use
+            guard let dictionaries = snapshot.value as? [String:Any] else {return}
+            
+            //Print the key and the values for the dictionary
+            dictionaries.forEach({ (key, value) in
+                //When we return dictionaries it returns dictionaries for all the users
+                //Instead we want it for one user, so we use forEach method
+                //Once we iterate over one user's dictionary, we cast it as a single dictionary and then cast that value as a dictionary.
+                //Within that dictionary, there is imageURL property that contains the links to the dictionary
+                guard let dictionaryies = value as? [String:Any] else {return}
+                
+                guard let imageURL = dictionaryies["imageUrl"] as? String else {return}
+                print("imageURL: \(imageURL)")
+                
+                //We then create a struct Post which contains a dictionary with the value of imageURL
+                let post = Post(dictionary: dictionaryies)
+                print(post.imageUrl)
+                self.Posts.append(post)
+                
+                
+            })
+            
+            self.collectionView?.reloadData()
+            
+            
+            
+        }
         
         
     }
