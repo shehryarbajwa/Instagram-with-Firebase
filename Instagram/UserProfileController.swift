@@ -33,6 +33,21 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         setUpLogout()
         
+        fetchPosts()
+        
+    }
+    
+    fileprivate func fetchPosts(){
+        print("123")
+        
+        //We are accessing the current user's uid which also takes place in the database's uid
+        //Lets inspect the database
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        Database.database().reference().child("posts").child(uid)
+        
+        
+        
     }
     
     
