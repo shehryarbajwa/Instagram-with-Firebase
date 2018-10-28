@@ -30,7 +30,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         setUpLogout()
         
         fetchPosts()
@@ -59,13 +59,13 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
                 //Instead we want it for one user, so we use forEach method
                 //Once we iterate over one user's dictionary, we cast it as a single dictionary and then cast that value as a dictionary.
                 //Within that dictionary, there is imageURL property that contains the links to the dictionary
-                guard let dictionaryies = value as? [String:Any] else {return}
+                guard let dictionary = value as? [String:Any] else {return}
                 
-                guard let imageURL = dictionaryies["imageUrl"] as? String else {return}
+                guard let imageURL = dictionary["imageUrl"] as? String else {return}
                 print("imageURL: \(imageURL)")
                 
                 //We then create a struct Post which contains a dictionary with the value of imageURL
-                let post = Post(dictionary: dictionaryies)
+                let post = Post(dictionary: dictionary)
                 print(post.imageUrl)
                 self.Posts.append(post)
                 
@@ -119,7 +119,12 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
+        
+        //cell.post refers to the post variable we created earlier which refers to the Post struct. Its value refers to the array Posts each numbered from the indexPath
+        //The posts struct contains the imageURl from our dictionary
+        //Previously the Posts struct was empty. It started getting values once we observed the Firebase Database and
+        cell.post = Posts[indexPath.item]
         
         cell.backgroundColor = .purple
         
@@ -141,7 +146,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return Posts.count
     }
     
     //Setup the SupplementatyView in the same way you set up the collectioNView normally
