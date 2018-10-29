@@ -10,6 +10,13 @@ import UIKit
 
 class CustomImageView : UIImageView {
     
+    //This is a customImageView that allows us to loadImages for the cells
+    //Step1: We go into the cells which are calling Images, which are the UserPhotocell and the UserProfileHeader
+    //Step2: Instead of having a standard imageView, we use this customImageView class
+    //Step3: This class loads an imageData from the urlString
+    //Step4: Where is the urlString provided? Within didSet, where you scan in the Post dictionary whether any new imageURL has been added, we load the new Image provided by the function. This goes for both the PhotoCell and the UserprofileHeaderCell. The struct User contains the name and profileImageURl. If there is a change to that struct, we can then use the didSet function on it, observe a change in its value and when that happens, passing it the profileImageURL
+    
+    
     var lasturlusedtoloadImage : String?
     
     func loadImage(urlString : String){
