@@ -48,7 +48,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func fetchPhotos(){
-        print("Fetcing")
+        //
         //Fetch photos within iOS Library, import Photos
         //Step1: we declare FetchOptions using PHFetchOptions
         //Step2: We declare a limit of 10 photos to be shown. We can make this as big as the size of the library
@@ -64,7 +64,7 @@ class Photoselector : UICollectionViewController, UICollectionViewDelegateFlowLa
         
         DispatchQueue.global(qos: .background).async {
             allPhotos.enumerateObjects { (asset, count, stop) in
-                print(count)
+                //print(count)
                 let imageManager = PHImageManager.default()
                 let targetSize = CGSize(width: 200, height: 200)
                 let options = PHImageRequestOptions()

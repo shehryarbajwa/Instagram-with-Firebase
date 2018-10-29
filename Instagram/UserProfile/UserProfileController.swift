@@ -49,15 +49,14 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         //This will print all the data that is associated with the profile
         let ref = Database.database().reference().child("posts").child(uid)
         ref.observeSingleEvent(of: .value) { (snapshot) in
-            print(snapshot.value)
             //We cast the jSon returned data in a dictionary that we can later use
             guard let dictionaries = snapshot.value as? [String:Any] else {return}
             
             //Print the key and the values for the dictionary
             dictionaries.forEach({ (key, value) in
-                //When we return dictionaries it returns dictionaries for all the users
-                //Instead we want it for one user, so we use forEach method
-                //Once we iterate over one user's dictionary, we cast it as a single dictionary and then cast that value as a dictionary.
+                //Step1: When we return dictionaries it returns multiple dictionaries. Instead we are going to create one dictionary for each key and value pair
+                //Once we iterate over one dictionary, we cast the key to its pair
+                //ImageURL is within that dictionary
                 //Within that dictionary, there is imageURL property that contains the links to the dictionary
                 guard let dictionary = value as? [String:Any] else {return}
                 
@@ -66,7 +65,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
                 
                 //We then create a struct Post which contains a dictionary with the value of imageURL
                 let post = Post(dictionary: dictionary)
-                print(post.imageUrl)
+                //
+                //This is where we append the Posts empty array with the values from the imageURL
                 self.Posts.append(post)
                 
                 
@@ -172,13 +172,15 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot.value ?? "")
+            
             
             guard let dictionary = snapshot.value as? [String: Any] else { return }
             
             self.user = User(dictionary: dictionary)
             self.navigationItem.title = self.user?.username
             
+            
+            //Reload data happens twice. During fetchPosts and fetchUsers
             self.collectionView?.reloadData()
             
         }) { (err) in

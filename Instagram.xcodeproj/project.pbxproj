@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2E962AC356376DE0A3D7A918 /* Pods_InstagramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD47BE81B5B8EEF9EE76717 /* Pods_InstagramTests.framework */; };
 		7E3C43981DA0FCEC1F0DB9C2 /* Pods_InstagramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844454AA4393B52E123A6BE6 /* Pods_InstagramUITests.framework */; };
+		E60DD0912186E3DB00D91362 /* CustomImageViewSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60DD0902186E3DB00D91362 /* CustomImageViewSubclass.swift */; };
 		E63902AC21699C09004DE5A0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E63902AB21699C09004DE5A0 /* GoogleService-Info.plist */; };
 		E63923FD216D4CE000C34F23 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63923FC216D4CE000C34F23 /* MainTabBarController.swift */; };
 		E63923FF216D4E9C00C34F23 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63923FE216D4E9C00C34F23 /* UserProfileController.swift */; };
@@ -56,6 +57,7 @@
 		9CD47BE81B5B8EEF9EE76717 /* Pods_InstagramTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstagramTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C54B3F512DD5A9A660E3196C /* Pods-InstagramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstagramTests/Pods-InstagramTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DDF4936679A9A51D69D455E8 /* Pods-Instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Instagram/Pods-Instagram.release.xcconfig"; sourceTree = "<group>"; };
+		E60DD0902186E3DB00D91362 /* CustomImageViewSubclass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageViewSubclass.swift; sourceTree = "<group>"; };
 		E63902AB21699C09004DE5A0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E63923FC216D4CE000C34F23 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		E63923FE216D4E9C00C34F23 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				E640521C2169818600854FF4 /* Extensions.swift */,
+				E60DD0902186E3DB00D91362 /* CustomImageViewSubclass.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				E6C63D842185766800D986DF /* Posts.swift in Sources */,
 				E69C97712146CA7800CC1D96 /* AppDelegate.swift in Sources */,
 				E663EF8221759CDA00E51350 /* LoginController.swift in Sources */,
+				E60DD0912186E3DB00D91362 /* CustomImageViewSubclass.swift in Sources */,
 				E67CDFAC217EE1550096556B /* PhotoSelectorHeader.swift in Sources */,
 				E6D3F2CE217C0848000E6D57 /* photoSelectorController.swift in Sources */,
 			);

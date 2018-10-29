@@ -13,18 +13,22 @@ class UserProfilePhotoCell: UICollectionViewCell {
     //Initializing a CollectionViewCell
     
     //This CollectionView contains an imageView with a background color, it is initialized and added to the viewdidLoad which is the init method by adding a subView
-    
+    //By using the post we see if any changes were made to the dictionary post
     var post : Post? {
         //If the properties of the variables in the post Struct change, then we use the didSet function
-        
         didSet {
             
-            
+            print(1)
             guard let imageUrl = post?.imageUrl else {return}
             guard let url = URL(string: imageUrl) else {return}
             URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
                     print("Failed to fetch ImageURLs")
+                    return
+                }
+                //If the url loaded here is not the same as the imageURL from post, then dont proceed further
+                //Once we run the URLSession, it will load the Url in a longer time because it is being run on async
+                if url.absoluteString != self.post?.imageUrl {
                     return
                 }
                 
@@ -45,8 +49,8 @@ class UserProfilePhotoCell: UICollectionViewCell {
     
     
     
-    let photoImageView : UIImageView = {
-        let iv = UIImageView()
+    let photoImageView : CustomImageView = {
+        let iv = CustomImageView()
         iv.backgroundColor = .red
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
