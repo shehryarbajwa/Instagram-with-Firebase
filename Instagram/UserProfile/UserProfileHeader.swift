@@ -204,7 +204,7 @@ class UserProfileHeader: UICollectionViewCell {
                 return
             }
             
-            if url.absoluteString != 
+            //if url.absoluteString != 
             
             //perhaps check for response status of 200 (HTTP OK)
             

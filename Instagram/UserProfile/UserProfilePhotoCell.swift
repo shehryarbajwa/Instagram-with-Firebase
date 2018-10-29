@@ -19,7 +19,9 @@ class UserProfilePhotoCell: UICollectionViewCell {
         didSet {
             
             print(1)
+            
             guard let imageUrl = post?.imageUrl else {return}
+            photoImageView.loadImage(url: imageUrl)
             guard let url = URL(string: imageUrl) else {return}
             URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
