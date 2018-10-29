@@ -33,12 +33,31 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         setUpLogout()
         
-        fetchPosts()
-        
+        //fetchPosts()
+        fetchOrderedPosts()
     }
     //Create an array which is empty which contains the value of the posts
     var Posts = [Post]()
     
+    
+    fileprivate func fetchOrderedPosts(){
+        
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let ref = Database.database().reference().child("posts").child(uid)
+        
+        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
+            print(snapshot.key , snapshot.value)
+            
+            guard let dictionary = snapshot.value as? [String:Any] else {return}
+            
+            let post = Post(dictionary: dictionary)
+            self.Posts.append(post)
+            
+            self.collectionView?.reloadData()
+        }) { (err) in
+            print("Failed to fetch ordered posts : \(err)")
+        }
+}
     
     fileprivate func fetchPosts(){
         
