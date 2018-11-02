@@ -71,10 +71,9 @@ class MainTabBarController : UITabBarController, UITabBarControllerDelegate {
         
         
         //What is going on here?
-        let homeNavController = templateNavController("home_selected", "home_unselected", rootViewController: UserProfileController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let homeNavController = templateNavController("home_selected", "home_unselected", rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
       
         
-       
         
         //Search
         
