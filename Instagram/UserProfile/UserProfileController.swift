@@ -44,7 +44,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         guard let uid = Auth.auth().currentUser?.uid else {return}
         let ref = Database.database().reference().child("posts").child(uid)
-        
+        //Fetch Orderered posts is observing the child "posts" "childAdded"
         ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
             print(snapshot.key , snapshot.value)
             

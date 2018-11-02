@@ -13,8 +13,21 @@ import UIKit
 
 class HomePostCell: UICollectionViewCell {
     
-    let photoImageView : UIImageView = {
-        let iv = UIImageView()
+    var post : Post? {
+        didSet {
+            print(post?.imageUrl)
+            guard let postImageUrl = post?.imageUrl else {return}
+            
+            
+            photoImageView.loadImage(urlString: postImageUrl)
+        }
+    }
+    
+    
+    let photoImageView : CustomImageView = {
+        let iv = CustomImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         iv.backgroundColor = .blue
         return iv
     }()
