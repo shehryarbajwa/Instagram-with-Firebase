@@ -16,6 +16,7 @@ class HomePostCell: UICollectionViewCell {
     var post : Post? {
         didSet {
             print(post?.imageUrl)
+            //This is called each time the 
             guard let postImageUrl = post?.imageUrl else {return}
             
             

@@ -34,7 +34,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Posts.count
     }
-    
+    //Can be used withFlowLayout Delegate method
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)
     }
@@ -44,11 +44,15 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! HomePostCell
         
+        //cell.post runs on each indexPath's item. It starts with 0, then 1 then 2 etc.
+        //The value of post is changed with each IndexPath Item.
+        //Posts[indexPath.item] means what is the value of imageURL at key 0, then 1 then 2 etc.
+        //This changes the post Variable in HomePostcell and notifies it which then marks when values are changed.
         cell.post = Posts[indexPath.item]
         
         return cell
     }
-    
+    //Posts is the empty array of imageURL's
     var Posts = [Post]()
     
     fileprivate func fetchPosts(){
@@ -57,9 +61,11 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         let ref = Database.database().reference().child("posts").child(uid)
         
         ref.observeSingleEvent(of: .value) { (snapshot) in
+            
+            //dictionaries refers to the values of caption, creationDate, Height
             guard let dictionaries = snapshot.value as? [String:Any] else {return}
             
-            
+            //For each accesses just the imageURL
             dictionaries.forEach({ (key, value) in
                
                 guard let dictionary = value as? [String:Any] else {return}
