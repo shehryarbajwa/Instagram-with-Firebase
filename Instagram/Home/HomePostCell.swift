@@ -52,6 +52,12 @@ class HomePostCell: UICollectionViewCell {
         return iv
     }()
     
+    let optionsButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("•••", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,9 +65,11 @@ class HomePostCell: UICollectionViewCell {
         addSubview(photoImageView)
         addSubview(userProfileImageView)
         addSubview(usernameLabel)
+        addSubview(optionsButton)
         
         usernameLabel.anchor(top: topAnchor, left: userProfileImageView.rightAnchor, bottom: photoImageView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
+        optionsButton.anchor(top: topAnchor, left: nil, bottom: photoImageView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 50, height: 0)
         
         userProfileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         //To get the circleView for an imageView you set a layer and its cornerRadius
