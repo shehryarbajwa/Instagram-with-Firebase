@@ -35,8 +35,19 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         return Posts.count
     }
     //Can be used withFlowLayout Delegate method
+    //Size for item at determines how big you want the cell's height to be
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200)
+        
+        //By giving the 40 that is the height of the userprofileImageview, and the 8 and 8 are the heights for the top anchor and the bottom anchor
+        //It is then incremented with view.frame.width
+        
+        //THIS IS SUPERIMPORTANT FOR CELLSPACING. BY CREATING HEIGHT, WE SET THE HEIGHT FOR EACH VARIABLE WITHIN THE CELL
+        
+        var height : CGFloat = 40 + 8 + 8 // username and userprofileimageview
+        height += view.frame.width
+        height += 50
+        
+        return CGSize(width: view.frame.width, height: height)
     }
     //CollectionView has to use the property cellforItem at
     //Then you can register different cells for the collectionView
