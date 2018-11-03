@@ -13,6 +13,19 @@ import UIKit
 
 class HomePostCell: UICollectionViewCell {
     
+    //This is where we will add different items to the cell
+    
+    let userProfileImageView : CustomImageView = {
+        let iv = CustomImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.backgroundColor = .blue
+        return iv
+    }()
+    
+    
+    
+    
     var post : Post? {
         didSet {
             print(post?.imageUrl)
@@ -38,7 +51,12 @@ class HomePostCell: UICollectionViewCell {
         super.init(frame: frame)
         
         addSubview(photoImageView)
-        photoImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        addSubview(userProfileImageView)
+        
+        
+        userProfileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        
+        photoImageView.anchor(top: userProfileImageView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         
         
