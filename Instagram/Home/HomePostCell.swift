@@ -17,7 +17,7 @@ class HomePostCell: UICollectionViewCell {
     
     let userProfileImageView : CustomImageView = {
         let iv = CustomImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         iv.backgroundColor = .blue
         return iv
@@ -35,6 +35,13 @@ class HomePostCell: UICollectionViewCell {
             
             photoImageView.loadImage(urlString: postImageUrl)
             usernameLabel.text = post?.user?.username
+            
+            guard let profileImageUrl = post?.user?.profileImageUrl else {return}
+            
+            userProfileImageView.loadImage(urlString: profileImageUrl)
+            
+            captionLabel.text = post?.caption
+            
         }
     }
     
