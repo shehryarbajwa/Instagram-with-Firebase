@@ -32,7 +32,7 @@ class HomePostCell: UICollectionViewCell {
             //This is called each time the 
             guard let postImageUrl = post?.imageUrl else {return}
             
-            
+            //We set the usernameLabel to be the post's username that we import from Firebase
             photoImageView.loadImage(urlString: postImageUrl)
             usernameLabel.text = post?.user?.username
             

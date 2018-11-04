@@ -10,6 +10,7 @@ import Foundation
 
 
 struct Post {
+    //Add the user and the caption in the Post struct aswell
     
     let imageUrl : String
     let user : User?
@@ -17,6 +18,7 @@ struct Post {
     
     
     //Initialized with a dictionary so its initial value is a dictionary whcih then contains values. Basically this struct is a dictionary
+    //The dictionary is initialized with the user and the caption
     init(user: User , dictionary : [String:Any]) {
         self.user = user
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""

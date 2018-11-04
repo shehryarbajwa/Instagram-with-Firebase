@@ -11,7 +11,7 @@ import Firebase
 
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    
+    let imageUrl = "imageUrl"
     let cellID = "cellID"
     
     override func viewDidLoad() {
@@ -69,13 +69,23 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     
     fileprivate func fetchPosts(){
         
+        //In the fetching of Posts we can then initialize the Post and User Library with the values imported from Firebase
+        
         guard let uid = Auth.auth().currentUser?.uid else {return}
         
         Database.database().reference().child("users").child(uid).observe(.value, with: { (snapshot) in
             
             guard let userDictionary = snapshot.value as? [String:Any] else {return}
+            //The users reference will fetch the users value from Firebase and then fetch the values of the profileImageURl and the username
+            
+            
+            
+            //The user struct is then initialized with the snapshot value from the JSON call from firebase and initialized
+            
             
             let user = User(dictionary: userDictionary)
+            
+            //Ref for posts accesses the Firebase Posts
             
             let ref = Database.database().reference().child("posts").child(uid)
             
@@ -89,8 +99,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                     
                     guard let dictionary = value as? [String:Any] else {return}
                     
-                    guard let imageURL = dictionary["imageUrl"] as? String else {return}
-                    print("imageURL: \(imageURL)")
+                    guard let imageURL = dictionary[self.imageUrl] as? String else {return}
                     
                     
                     let post = Post(user: user, dictionary: dictionary)
