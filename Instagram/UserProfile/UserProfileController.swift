@@ -50,7 +50,9 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
             
             guard let dictionary = snapshot.value as? [String:Any] else {return}
             
-            let post = Post(dictionary: dictionary)
+            guard let user = self.user else {return}
+            
+            let post = Post(user: user, dictionary: dictionary)
             self.Posts.append(post)
             
             self.collectionView?.reloadData()
@@ -59,46 +61,10 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         }
 }
     
-    fileprivate func fetchPosts(){
-        
-        //We are accessing the current user's uid which also takes place in the database's uid
-        //Lets inspect the database. Within the database elements there is the child posts, which then has another child called the currentUser which then holds the different data objects
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        //By observing the single event of the posts child, we can then print the snapshot's value and print it out
-        //This will print all the data that is associated with the profile
-        let ref = Database.database().reference().child("posts").child(uid)
-        ref.observeSingleEvent(of: .value) { (snapshot) in
-            //We cast the jSon returned data in a dictionary that we can later use
-            guard let dictionaries = snapshot.value as? [String:Any] else {return}
-            
-            //Print the key and the values for the dictionary
-            dictionaries.forEach({ (key, value) in
-                //Step1: When we return dictionaries it returns multiple dictionaries. Instead we are going to create one dictionary for each key and value pair
-                //Once we iterate over one dictionary, we cast the key to its pair
-                //ImageURL is within that dictionary
-                //Within that dictionary, there is imageURL property that contains the links to the dictionary
-                guard let dictionary = value as? [String:Any] else {return}
-                
-                guard let imageURL = dictionary["imageUrl"] as? String else {return}
-                print("imageURL: \(imageURL)")
-                
-                //We then create a struct Post which contains a dictionary with the value of imageURL
-                let post = Post(dictionary: dictionary)
-                //
-                //This is where we append the Posts empty array with the values from the imageURL
-                self.Posts.append(post)
-                
-                
-            })
-            
-            self.collectionView?.reloadData()
-            
-            
-            
-        }
+    
         
         
-    }
+    
     
     
     

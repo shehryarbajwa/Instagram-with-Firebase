@@ -70,6 +70,18 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     fileprivate func fetchPosts(){
         
         guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        Database.database().reference().child("users").child(uid).observe(.value, with: { (snapshot) in
+            
+            guard let userDictionary = snapshot.value as? [String:Any] else {return}
+            
+            let user = User(dictionary: userDictionary)
+            
+        }) { (err) in
+            print("Failed to fetch user for post:" , err)
+            
+        }
+        
         let ref = Database.database().reference().child("posts").child(uid)
         
         ref.observeSingleEvent(of: .value) { (snapshot) in
@@ -85,8 +97,9 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                 guard let imageURL = dictionary["imageUrl"] as? String else {return}
                 print("imageURL: \(imageURL)")
                 
+                let dummyUser = User(dictionary: ["username" : "Shehryar"])
                 
-                let post = Post(dictionary: dictionary)
+                let post = Post(user: dummyUser, dictionary: dictionary)
                 self.Posts.append(post)
                 
                 

@@ -12,9 +12,14 @@ import Foundation
 struct Post {
     let imageUrl : String
     
+    let user : User?
+    
+    
     //Initialized with a dictionary so its initial value is a dictionary whcih then contains values. Basically this struct is a dictionary
-    init(dictionary : [String:Any]) {
+    init(user: User , dictionary : [String:Any]) {
+        self.user = user
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""
+        
         
         
     }

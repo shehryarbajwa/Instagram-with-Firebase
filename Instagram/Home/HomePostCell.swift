@@ -34,7 +34,7 @@ class HomePostCell: UICollectionViewCell {
             
             
             photoImageView.loadImage(urlString: postImageUrl)
-            usernameLabel.text = "USERNAME"
+            usernameLabel.text = post?.user?.username
         }
     }
     
