@@ -77,39 +77,40 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             
             let user = User(dictionary: userDictionary)
             
+            let ref = Database.database().reference().child("posts").child(uid)
+            
+            ref.observeSingleEvent(of: .value) { (snapshot) in
+                
+                //dictionaries refers to the values of caption, creationDate, Height
+                guard let dictionaries = snapshot.value as? [String:Any] else {return}
+                
+                //For each accesses just the imageURL
+                dictionaries.forEach({ (key, value) in
+                    
+                    guard let dictionary = value as? [String:Any] else {return}
+                    
+                    guard let imageURL = dictionary["imageUrl"] as? String else {return}
+                    print("imageURL: \(imageURL)")
+                    
+                    
+                    let post = Post(user: user, dictionary: dictionary)
+                    self.Posts.append(post)
+                    
+                    
+                })
+                
+                self.collectionView?.reloadData()
+                
+                
+                
+            }
+            
         }) { (err) in
             print("Failed to fetch user for post:" , err)
             
         }
         
-        let ref = Database.database().reference().child("posts").child(uid)
         
-        ref.observeSingleEvent(of: .value) { (snapshot) in
-            
-            //dictionaries refers to the values of caption, creationDate, Height
-            guard let dictionaries = snapshot.value as? [String:Any] else {return}
-            
-            //For each accesses just the imageURL
-            dictionaries.forEach({ (key, value) in
-               
-                guard let dictionary = value as? [String:Any] else {return}
-                
-                guard let imageURL = dictionary["imageUrl"] as? String else {return}
-                print("imageURL: \(imageURL)")
-                
-                let dummyUser = User(dictionary: ["username" : "Shehryar"])
-                
-                let post = Post(user: dummyUser, dictionary: dictionary)
-                self.Posts.append(post)
-                
-                
-            })
-            
-            self.collectionView?.reloadData()
-            
-            
-            
-        }
         
         
     }
