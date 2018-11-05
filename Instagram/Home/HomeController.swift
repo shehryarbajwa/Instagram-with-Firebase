@@ -103,9 +103,11 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     
     fileprivate func fetchpostswithuser(user: User){
         
-        guard let uid = Auth.auth().currentUser?.uid else {return}
         
-        let ref = Database.database().reference().child("posts").child(uid)
+        
+        //guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        let ref = Database.database().reference().child("posts").child(user.uid)
         
         ref.observeSingleEvent(of: .value) { (snapshot) in
             

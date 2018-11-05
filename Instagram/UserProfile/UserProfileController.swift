@@ -163,7 +163,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
             
             guard let dictionary = snapshot.value as? [String: Any] else { return }
             
-            self.user = User(dictionary: dictionary)
+            self.user = User(uid: uid, dictionary: dictionary)
             self.navigationItem.title = self.user?.username
             
             
