@@ -20,6 +20,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         collectionView?.backgroundColor = .white
         //For creating custom cells in the homenewsfeed which will contain the posts
         //We create a collectionViewController which then contains collectionViewCells to display different things. Good design pattern
+        
+        
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellID)
         
         fetchPosts()
@@ -78,8 +80,6 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             guard let userDictionary = snapshot.value as? [String:Any] else {return}
             //The users reference will fetch the users value from Firebase and then fetch the values of the profileImageURl and the username
             
-            
-            
             //The user struct is then initialized with the snapshot value from the JSON call from firebase and initialized
             
             
@@ -87,32 +87,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             
             //Ref for posts accesses the Firebase Posts
             
-            let ref = Database.database().reference().child("posts").child(uid)
-            
-            ref.observeSingleEvent(of: .value) { (snapshot) in
-                
-                //dictionaries refers to the values of caption, creationDate, Height
-                guard let dictionaries = snapshot.value as? [String:Any] else {return}
-                
-                //For each accesses just the imageURL
-                dictionaries.forEach({ (key, value) in
-                    
-                    guard let dictionary = value as? [String:Any] else {return}
-                    
-                    guard let imageURL = dictionary[self.imageUrl] as? String else {return}
-                    
-                    
-                    let post = Post(user: user, dictionary: dictionary)
-                    self.Posts.append(post)
-                    
-                    
-                })
-                
-                self.collectionView?.reloadData()
-                
-                
-                
-            }
+            self.fetchpostswithuser(user: user)
             
         }) { (err) in
             print("Failed to fetch user for post:" , err)
@@ -122,6 +97,39 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         
         
+        
+    }
+    
+    
+    fileprivate func fetchpostswithuser(user: User){
+        
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        let ref = Database.database().reference().child("posts").child(uid)
+        
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            
+            //dictionaries refers to the values of caption, creationDate, Height
+            guard let dictionaries = snapshot.value as? [String:Any] else {return}
+            
+            //For each accesses just the imageURL
+            dictionaries.forEach({ (key, value) in
+                
+                guard let dictionary = value as? [String:Any] else {return}
+                
+                guard let imageURL = dictionary[self.imageUrl] as? String else {return}
+                
+                let post = Post(user: user, dictionary: dictionary)
+                self.Posts.append(post)
+                
+                
+            })
+            
+            self.collectionView?.reloadData()
+            
+            
+            
+        }
     }
 }
 
