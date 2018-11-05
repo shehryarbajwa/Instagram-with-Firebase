@@ -9,6 +9,17 @@
 import UIKit
 import Firebase
 
+
+extension Database {
+    
+    static func fetchUserwithUID(uid: String){
+        print("Fetching UID")
+    }
+}
+
+
+
+
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     let imageUrl = "imageUrl"
