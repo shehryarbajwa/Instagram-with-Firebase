@@ -12,31 +12,7 @@ import Firebase
 
 //Extension of Database, This will contain the function. We are extending the functionality of the Database Firebase framework. This can be done on pre existing libraries. We will be calling this function to fetchUserswithUID.
 
-extension Database {
-    
-    static func fetchUserwithUID(uid: String, completion: @escaping() -> () ){
-        Database.database().reference().child("users").child(uid).observe(.value, with: { (snapshot) in
-            
-            guard let userDictionary = snapshot.value as? [String:Any] else {return}
-            //The users reference will fetch the users value from Firebase and then fetch the values of the profileImageURl and the username
-            
-            //The user struct is then initialized with the snapshot value from the JSON call from firebase and initialized
-            
-            
-            let user = User(uid: uid, dictionary: userDictionary)
-            
-            completion()
-            
-            //Ref for posts accesses the Firebase Posts
-            
-            //self.fetchpostswithuser(user: user)
-            
-        }) { (err) in
-            print("Failed to fetch user for post:" , err)
-            
-        }
-    }
-}
+
 
 
 
@@ -109,11 +85,10 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         guard let uid = Auth.auth().currentUser?.uid else {return}
         
-        Database.fetchUserwithUID(uid: uid) {
-            
-            
-            
-            print("Printing fetching users")
+        //We use the completionBlock within fetchUserwithUID so that we can fetchpostswithuser once we make the Firebase network requests aswell as the
+        
+        Database.fetchUserwithUID(uid: uid) { (user) in
+            self.fetchpostswithuser(user: user)
         }
     }
     

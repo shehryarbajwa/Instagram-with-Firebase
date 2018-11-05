@@ -158,20 +158,15 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     fileprivate func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            
-            guard let dictionary = snapshot.value as? [String: Any] else { return }
-            
-            self.user = User(uid: uid, dictionary: dictionary)
+        Database.fetchUserwithUID(uid: uid) { (user) in
+            self.user = user
             self.navigationItem.title = self.user?.username
             
             
             //Reload data happens twice. During fetchPosts and fetchUsers
             self.collectionView?.reloadData()
+        
             
-        }) { (err) in
-            print("Failed to fetchuser:", err)
         }
     }
 }

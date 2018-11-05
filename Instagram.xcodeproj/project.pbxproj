@@ -32,6 +32,7 @@
 		E6C63D8721857C1C00D986DF /* UserProfilePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C63D8621857C1C00D986DF /* UserProfilePhotoCell.swift */; };
 		E6D3F2CE217C0848000E6D57 /* photoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D3F2CD217C0848000E6D57 /* photoSelectorController.swift */; };
 		E6D3F2D0217C36F2000E6D57 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D3F2CF217C36F2000E6D57 /* PhotoSelectorCell.swift */; };
+		E6DA4CB7218FE54A00C10B6C /* FirebaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA4CB6218FE54A00C10B6C /* FirebaseUtils.swift */; };
 		F33DB90EBBEE9B7E2D0470A2 /* Pods_Instagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300114E5C75643F2D8DA26F /* Pods_Instagram.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		E6C63D8621857C1C00D986DF /* UserProfilePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePhotoCell.swift; sourceTree = "<group>"; };
 		E6D3F2CD217C0848000E6D57 /* photoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = photoSelectorController.swift; sourceTree = "<group>"; };
 		E6D3F2CF217C36F2000E6D57 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
+		E6DA4CB6218FE54A00C10B6C /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
 		F300114E5C75643F2D8DA26F /* Pods_Instagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F996D7357DE400F8D4C515CC /* Pods-InstagramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstagramUITests/Pods-InstagramUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				E640521C2169818600854FF4 /* Extensions.swift */,
+				E6DA4CB6218FE54A00C10B6C /* FirebaseUtils.swift */,
 				E60DD0902186E3DB00D91362 /* CustomImageViewSubclass.swift */,
 			);
 			path = Utils;
@@ -478,6 +481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6DA4CB7218FE54A00C10B6C /* FirebaseUtils.swift in Sources */,
 				E681DA2C2180427F0034190E /* SharePhotoController.swift in Sources */,
 				E69C97732146CA7800CC1D96 /* SignupController.swift in Sources */,
 				E6D3F2D0217C36F2000E6D57 /* PhotoSelectorCell.swift in Sources */,

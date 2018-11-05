@@ -51,53 +51,5 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Instagram/Home/HomeController.swift"
-            timestampString = "563077854.078715"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "fetchPosts()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Instagram.HomeController.(fetchPosts in _A1A6A093C23ACCF97E6B106AA969545B)() -&gt; ()"
-                  moduleName = "Instagram"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shehryarbajwa/Instagram-with-Firebase/Instagram/Home/HomeController.swift"
-                  timestampString = "563077854.306743"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "298">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in Instagram.HomeController.(fetchPosts in _A1A6A093C23ACCF97E6B106AA969545B)() -&gt; ()"
-                  moduleName = "Instagram"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shehryarbajwa/Instagram-with-Firebase/Instagram/Home/HomeController.swift"
-                  timestampString = "563077854.308895"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "113"
-                  endingLineNumber = "113"
-                  offsetFromSymbolStart = "4">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
