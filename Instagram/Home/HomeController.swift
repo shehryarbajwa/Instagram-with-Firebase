@@ -83,7 +83,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             //The user struct is then initialized with the snapshot value from the JSON call from firebase and initialized
             
             
-            let user = User(dictionary: userDictionary)
+            let user = User(uid: uid, dictionary: userDictionary)
             
             //Ref for posts accesses the Firebase Posts
             
