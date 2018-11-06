@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 
 
-class UserSearchController : UICollectionViewController {
+class UserSearchController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+    let cellID = "cellID"
     
     let searchBar : UISearchBar = {
         let sb = UISearchBar()
@@ -30,6 +31,28 @@ class UserSearchController : UICollectionViewController {
         let navBar = navigationController?.navigationBar
         
         searchBar.anchor(top: navBar?.topAnchor, left: navBar?.leftAnchor, bottom: navBar?.bottomAnchor, right: navBar?.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
+        
+        //After adding the subview then add the cells
+        
+        collectionView?.register(UserSearchCell.self, forCellWithReuseIdentifier: cellID)
+        
+        //Allows the collectionView to bounce vertical
+        collectionView?.alwaysBounceVertical = true
+    }
+    //To give the cell height, first conform to UICollectionFlowLayoutDelegate
+    //Then use sizeforitem at
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 66)
     }
     
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        
+        return cell
+    }
 }
