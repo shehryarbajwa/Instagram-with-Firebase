@@ -76,8 +76,11 @@ class MainTabBarController : UITabBarController, UITabBarControllerDelegate {
         
         
         //Search
+        //UserSearchController with the collectionViewLayout we initialze the CollectionView, provide the images and then provide the rootViewController
         
-        let searchNavController = templateNavController("search_selected", "search_unselected")
+        let searchNavController = templateNavController("search_selected", "search_unselected", rootViewController: UserSearchController(collectionViewLayout : UICollectionViewFlowLayout()))
+        
+       
         
         //LikeButton
         

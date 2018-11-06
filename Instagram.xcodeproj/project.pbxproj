@@ -15,6 +15,7 @@
 		E63923FD216D4CE000C34F23 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63923FC216D4CE000C34F23 /* MainTabBarController.swift */; };
 		E63923FF216D4E9C00C34F23 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63923FE216D4E9C00C34F23 /* UserProfileController.swift */; };
 		E63E05D82172F147005FCE31 /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63E05D72172F147005FCE31 /* UserProfileHeader.swift */; };
+		E6402C1B21915ABC00730405 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6402C1A21915ABC00730405 /* UserSearchController.swift */; };
 		E640521D2169818600854FF4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E640521C2169818600854FF4 /* Extensions.swift */; };
 		E6576F8B218C081200A94433 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6576F8A218C081200A94433 /* HomeController.swift */; };
 		E6576F8D218C0A1C00A94433 /* HomePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6576F8C218C0A1C00A94433 /* HomePostCell.swift */; };
@@ -67,6 +68,7 @@
 		E63923FC216D4CE000C34F23 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		E63923FE216D4E9C00C34F23 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		E63E05D72172F147005FCE31 /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
+		E6402C1A21915ABC00730405 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		E640521C2169818600854FF4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E6576F8A218C081200A94433 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		E6576F8C218C0A1C00A94433 /* HomePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCell.swift; sourceTree = "<group>"; };
@@ -146,6 +148,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E6402C1921915AA800730405 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E6402C1A21915ABC00730405 /* UserSearchController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		E640521B2169816E00854FF4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +210,7 @@
 		E69C976F2146CA7800CC1D96 /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
+				E6402C1921915AA800730405 /* Search */,
 				E6576F89218C07FD00A94433 /* Home */,
 				E6C63D822185764C00D986DF /* Models */,
 				E6D3F2CC217C0832000E6D57 /* AddaPhoto */,
@@ -487,6 +498,7 @@
 				E6D3F2D0217C36F2000E6D57 /* PhotoSelectorCell.swift in Sources */,
 				E640521D2169818600854FF4 /* Extensions.swift in Sources */,
 				E63923FD216D4CE000C34F23 /* MainTabBarController.swift in Sources */,
+				E6402C1B21915ABC00730405 /* UserSearchController.swift in Sources */,
 				E6C63D8721857C1C00D986DF /* UserProfilePhotoCell.swift in Sources */,
 				E63E05D82172F147005FCE31 /* UserProfileHeader.swift in Sources */,
 				E63923FF216D4E9C00C34F23 /* UserProfileController.swift in Sources */,
