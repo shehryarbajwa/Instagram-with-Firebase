@@ -24,10 +24,12 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         return sb
     }()
     
+   var filteredUsers = [User]()
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
-        //What this does is 
-        self.users = self.users.filter { (user) -> Bool in
+        //What this does is
+        self.filteredUsers = self.users.filter { (user) -> Bool in
             return user.username.contains(searchText)
         }
         
@@ -93,13 +95,13 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return users.count
+        return filteredUsers.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! UserSearchCell
         //For the user Variable we declared in Custom Search Cell, the indexPath now runs on the users empty array we initialized above
-        cell.user = users[indexPath.item]
+        cell.user = filteredUsers[indexPath.item]
         
         return cell
     }
