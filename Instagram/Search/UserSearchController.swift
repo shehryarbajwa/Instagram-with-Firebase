@@ -47,7 +47,8 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 66)
     }
-    
+    //Initialize an empty array that contains all the elements of the user
+    var users = [User]()
     
     fileprivate func fetchUsers(){
         
@@ -64,11 +65,11 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
                 
                 let user = User(uid: key, dictionary: userDictionary)
                 
-                print(user.uid , user.username)
+                self.users.append(user)
                 
             })
             
-    
+            self.collectionView?.reloadData()
             
             
         }) { (error) in
@@ -79,11 +80,13 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return users.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! UserSearchCell
+        //For the user Variable we declared in Custom Search Cell, the indexPath now runs on the users empty array we initialized above
+        cell.user = users[indexPath.item]
         
         return cell
     }
