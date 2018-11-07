@@ -56,11 +56,11 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         let ref = Database.database().reference().child("users")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             print(snapshot.value)
-            print("It is printing now")
+            print("It is successful now")
             
             
         }) { (error) in
-            print("Failed to fetch users: \(error.localizedDescription )")
+            print("Failed to fetch users: \(error )")
         }
     }
     
