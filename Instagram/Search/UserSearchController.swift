@@ -48,15 +48,27 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         return CGSize(width: view.frame.width, height: 66)
     }
     
-    var User : User?
     
     fileprivate func fetchUsers(){
         
         
         let ref = Database.database().reference().child("users")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot.value)
-            print("It is successful now")
+            guard let dictionaries = snapshot.value as? [String:Any] else {return}
+            
+            //Iterates through all of the objects inside the dictionary
+            dictionaries.forEach({ (key , value) in
+
+                
+                guard let userDictionary = value as? [String:Any] else {return}
+                
+                let user = User(uid: key, dictionary: userDictionary)
+                
+                print(user.uid , user.username)
+                
+            })
+            
+    
             
             
         }) { (error) in
