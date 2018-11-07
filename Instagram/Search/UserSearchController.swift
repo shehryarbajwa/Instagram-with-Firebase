@@ -27,11 +27,15 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
    var filteredUsers = [User]()
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
-        //What this does is
-        self.filteredUsers = self.users.filter { (user) -> Bool in
-            return user.username.contains(searchText)
+        
+        if searchText.isEmpty {
+            filteredUsers = users
+        } else {
+            self.filteredUsers = self.users.filter { (user) -> Bool in
+                return user.username.lowercased().contains(searchText.lowercased())
+            }
         }
+        //What this does is
         
         self.collectionView?.reloadData()
     }
@@ -83,6 +87,8 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
                 self.users.append(user)
                 
             })
+            
+            self.filteredUsers = self.users
             
             self.collectionView?.reloadData()
             
