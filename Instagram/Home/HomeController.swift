@@ -34,12 +34,17 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         fetchPosts()
         setupNavigationBar()
+        
     }
     
     func setupNavigationBar(){
         navigationItem.titleView = UIImageView(image: UIImage(named: "logo2"))
         
     }
+    
+    
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Posts.count

@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Firebase
 
 class UserSearchController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -38,12 +38,32 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         
         //Allows the collectionView to bounce vertical
         collectionView?.alwaysBounceVertical = true
+        
+        fetchUsers()
+        
     }
     //To give the cell height, first conform to UICollectionFlowLayoutDelegate
     //Then use sizeforitem at
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 66)
     }
+    
+    var User : User?
+    
+    fileprivate func fetchUsers(){
+        
+        
+        let ref = Database.database().reference().child("users")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            print(snapshot.value)
+            print("It is printing now")
+            
+            
+        }) { (error) in
+            print("Failed to fetch users: \(error.localizedDescription )")
+        }
+    }
+    
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
