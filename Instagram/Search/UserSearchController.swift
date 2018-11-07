@@ -10,17 +10,29 @@ import Foundation
 import UIKit
 import Firebase
 
-class UserSearchController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class UserSearchController : UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
     
     let cellID = "cellID"
     
-    let searchBar : UISearchBar = {
+    //When you use let, you don't have access to self. Use lazy var to access self
+    lazy var searchBar : UISearchBar = {
         let sb = UISearchBar()
         sb.placeholder = "Enter username"
         sb.barTintColor = .gray
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 230, green: 240, blue: 240)
+        sb.delegate = self
         return sb
     }()
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        //What this does is 
+        self.users = self.users.filter { (user) -> Bool in
+            return user.username.contains(searchText)
+        }
+        
+        self.collectionView?.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +59,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 66)
     }
+    
     //Initialize an empty array that contains all the elements of the user
     var users = [User]()
     

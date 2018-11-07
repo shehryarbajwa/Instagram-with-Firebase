@@ -18,7 +18,6 @@ class UserProfilePhotoCell: UICollectionViewCell {
         //If the properties of the variables in the post Struct change, then we use the didSet function
         didSet {
             
-            print(1)
             
             guard let imageUrl = post?.imageUrl else {return}
             photoImageView.loadImage(urlString: imageUrl)

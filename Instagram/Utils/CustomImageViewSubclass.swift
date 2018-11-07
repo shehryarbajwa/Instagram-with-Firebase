@@ -23,7 +23,6 @@ class CustomImageView : UIImageView {
     var lasturlusedtoloadImage : String?
     
     func loadImage(urlString : String){
-        print("loading image")
         
         lasturlusedtoloadImage = urlString
         guard let url = URL(string: urlString) else {return}
@@ -34,8 +33,10 @@ class CustomImageView : UIImageView {
             }
             
             if let cachedImage = imageCache[urlString] {
-                self.image = cachedImage
-                return
+                DispatchQueue.main.async {
+                    self.image = cachedImage
+                    return
+                }
             }
             //If the url loaded here is not the same as the imageURL from post, then dont proceed further
             //Once we run the URLSession, it will load the Url in a longer time because it is being run on async
