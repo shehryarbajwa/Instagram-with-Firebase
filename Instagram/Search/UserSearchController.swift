@@ -81,6 +81,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
         navigationController?.pushViewController(userProfileController, animated: true)
         
+        //The user contains the user at each indexPath. We take the uid of the filteredUser at the indexPath and append that string to UserID
         userProfileController.UserID = user.uid
         
     }

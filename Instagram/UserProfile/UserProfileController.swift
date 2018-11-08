@@ -46,6 +46,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     fileprivate func fetchOrderedPosts(){
         
+        //This now reflects the uid for the indexPath item
         guard let uid = self.user?.uid else {return}
         
         
@@ -171,13 +172,16 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
        // guard let uid = Auth.auth().currentUser?.uid else { return }
         
         Database.fetchUserwithUID(uid: uid) { (user) in
+            //Once we have the existing user's uid, then we assign this user to our user variable declared above, which is then employed by fetchOrderedPosts()
             self.user = user
             self.navigationItem.title = self.user?.username
             
             
             //Reload data happens twice. During fetchPosts and fetchUsers
             self.collectionView?.reloadData()
-        
+            //First we fetch user with the UserID
+            //Once we have this , then we click on fetchOrderedPosts()
+            
             self.fetchOrderedPosts()
         }
     }
