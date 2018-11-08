@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class SignupController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignupController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     //Creating a PhotoButton using closures
     let plusPhotoButton: UIButton = {
@@ -53,6 +53,7 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
         
         textfield.addTarget(self, action: #selector(changecolor), for: .editingChanged)
+        textfield.resignFirstResponder()
         return textfield
     }()
     
@@ -80,6 +81,7 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         textfield.font = UIFont.systemFont(ofSize: 14)
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
         textfield.addTarget(self, action: #selector(changecolor), for: .editingChanged)
+        textfield.resignFirstResponder()
         return textfield
     }()
     let passwordTextField: UITextField = {
@@ -92,6 +94,7 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         textfield.font = UIFont.systemFont(ofSize: 14)
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
         textfield.addTarget(self, action: #selector(changecolor), for: .editingChanged)
+        textfield.resignFirstResponder()
         return textfield
     }()
     
@@ -190,6 +193,11 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         navigationController?.popViewController(animated: true)
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     
     //Adding the view to viewDidLoad and adding contraints
     override func viewDidLoad() {
@@ -199,6 +207,10 @@ class SignupController: UIViewController, UIImagePickerControllerDelegate, UINav
         
         view.addSubview(signInbutton)
         view.addSubview(plusPhotoButton)
+        
+        self.userNameTextField.delegate = self
+        self.passwordTextField.delegate = self
+        self.emailTextField.delegate = self
 
         plusPhotoButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 140)
         

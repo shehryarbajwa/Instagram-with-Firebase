@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class LoginController: UIViewController {
+class LoginController: UIViewController, UITextFieldDelegate {
     
     //We created a UIView which will contain the logo. We instantiateed the UIView and then added an imageView which contained a UIImage. Then we added it to the subview. The content mode of the logo is to be scaleAspectFit/scaletoFill. Then we add the anchoring. We don't set the top or the left bottom or any constraint and just set the height and width. Instead we equal the CenterXAnchor and CenterYAnchor to the View's centerX and CenterY.
     
@@ -50,12 +50,15 @@ class LoginController: UIViewController {
         
         let textfield = UITextField()
         textfield.placeholder = "Email"
+        
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.borderStyle = .roundedRect
         textfield.font = UIFont.systemFont(ofSize: 14)
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
         
+        
         textfield.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
+        textfield.resignFirstResponder()
         return textfield
     }()
     
@@ -68,11 +71,13 @@ class LoginController: UIViewController {
         let textfield = UITextField()
         textfield.placeholder = "Password"
         textfield.isSecureTextEntry = true
+        
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.borderStyle = .roundedRect
         textfield.font = UIFont.systemFont(ofSize: 14)
         textfield.backgroundColor = UIColor(white: 0, alpha: 0.03)
         textfield.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
+        textfield.resignFirstResponder()
         return textfield
     }()
     
@@ -135,6 +140,11 @@ class LoginController: UIViewController {
         
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -152,7 +162,8 @@ class LoginController: UIViewController {
         view.addSubview(signUpbutton)
         view.addSubview(logoContainerView)
         
-        
+        self.passwordTextField.delegate = self
+        self.emailTextField.delegate = self
         
         navigationController?.isNavigationBarHidden = true
         

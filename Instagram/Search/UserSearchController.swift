@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class UserSearchController : UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
+class UserSearchController : UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UITextFieldDelegate {
     
     let cellID = "cellID"
     
@@ -56,9 +56,15 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         
         //Allows the collectionView to bounce vertical
         collectionView?.alwaysBounceVertical = true
+        collectionView?.keyboardDismissMode = .onDrag
         
         fetchUsers()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        searchBar.isHidden = false
     }
     //To give the cell height, first conform to UICollectionFlowLayoutDelegate
     //Then use sizeforitem at
@@ -69,6 +75,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let user = filteredUsers[indexPath.item]
         searchBar.isHidden = true
+        searchBar.resignFirstResponder()
         print(user.username)
         
         let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
