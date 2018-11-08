@@ -19,7 +19,7 @@ class HomePostCell: UICollectionViewCell {
         let iv = CustomImageView()
         iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .blue
+        
         return iv
     }()
     
@@ -79,7 +79,7 @@ class HomePostCell: UICollectionViewCell {
         let iv = CustomImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .blue
+        
         return iv
     }()
     

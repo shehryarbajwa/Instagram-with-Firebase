@@ -40,7 +40,7 @@ class SharePhotoController : UIViewController {
     
     var imageView : UIImageView  = {
         let iv = UIImageView()
-        iv.backgroundColor = .red
+        //
         iv.contentMode = .scaleAspectFill
         
         //What is this property?

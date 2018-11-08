@@ -15,6 +15,8 @@ import FirebaseDatabase
 class UserProfileController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     
+    var UserID : String?
+    
     let cellId = "cellID"
     
     override func viewDidLoad() {
@@ -26,6 +28,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         fetchUser()
         
+        
+        
         //Use the collectionView to register the ProfileHeader and the supplementaryViewofKind is UICollection.ElementKindSectionHeader with reUseIdentifier headerID. The header is the upperPart of the CollectionView.
         
         
@@ -34,7 +38,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         setUpLogout()
         
         //fetchPosts()
-        fetchOrderedPosts()
+        
     }
     //Create an array which is empty which contains the value of the posts
     var Posts = [Post]()
@@ -42,7 +46,10 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     fileprivate func fetchOrderedPosts(){
         
-        guard let uid = Auth.auth().currentUser?.uid else {return}
+        guard let uid = self.user?.uid else {return}
+        
+        
+        
         let ref = Database.database().reference().child("posts").child(uid)
         //Fetch Orderered posts is observing the child "posts" "childAdded"
         ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
@@ -113,7 +120,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         //Previously the Posts struct was empty. It started getting values once we observed the Firebase Database and
         cell.post = Posts[indexPath.item]
         
-        cell.backgroundColor = .purple
+        
         
         return cell
         
@@ -156,7 +163,12 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     var user: User?
     fileprivate func fetchUser() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        //This will determine whether the uid has been changed in the userID
+        
+        let uid = UserID ?? Auth.auth().currentUser?.uid ?? ""
+        
+       // guard let uid = Auth.auth().currentUser?.uid else { return }
         
         Database.fetchUserwithUID(uid: uid) { (user) in
             self.user = user
@@ -166,7 +178,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
             //Reload data happens twice. During fetchPosts and fetchUsers
             self.collectionView?.reloadData()
         
-            
+            self.fetchOrderedPosts()
         }
     }
 }

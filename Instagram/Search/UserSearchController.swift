@@ -76,10 +76,12 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         let user = filteredUsers[indexPath.item]
         searchBar.isHidden = true
         searchBar.resignFirstResponder()
-        print(user.username)
+        
         
         let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
         navigationController?.pushViewController(userProfileController, animated: true)
+        
+        userProfileController.UserID = user.uid
         
     }
     
