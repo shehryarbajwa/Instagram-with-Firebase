@@ -66,6 +66,16 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         return CGSize(width: view.frame.width, height: 66)
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let user = filteredUsers[indexPath.item]
+        searchBar.isHidden = true
+        print(user.username)
+        
+        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(userProfileController, animated: true)
+        
+    }
+    
     //Initialize an empty array that contains all the elements of the user
     var users = [User]()
     
@@ -78,11 +88,17 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
             
             //Iterates through all of the objects inside the dictionary
             dictionaries.forEach({ (key , value) in
-
+                //We need to ommit ourselves from the list of the users
+                if key == Auth.auth().currentUser?.uid {
+                    print("Found myself omit from list")
+                }
                 
                 guard let userDictionary = value as? [String:Any] else {return}
                 
                 let user = User(uid: key, dictionary: userDictionary)
+                
+                
+                
                 
                 self.users.append(user)
                 
