@@ -25,22 +25,62 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     fileprivate func setupEditFollowButton(){
+        guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
         
-        //To check if this is the current user logged in
-        guard let currentLoggedInUser = Auth.auth().currentUser?.uid else {return}
+        guard let userId = user?.uid else { return }
         
-        print(currentLoggedInUser)
-        
-        //This just gets the user ID of the indexPath user
-        //Question is where is this being set? In the IndexPath of the SearchItem I suppose. Lets find out. This is the userID of the indexPath
-        guard let userid = user?.uid else {return}
-        
-        
-        if currentLoggedInUser == userid {
-            editProfileFollowButton.setTitle("Edit Profile", for: .normal)
+        if currentLoggedInUserId == userId {
+            //edit profile
         } else {
-            editProfileFollowButton.setTitle("Follow", for: .normal)
+            
+            // check if following the indexPath user. We observe the following node, then observe the currentLoggedInUserID with the child which has the userID and observe its value.
+            //If the snapshot has a value of 1, then it means that the user is following. If the value is not 1, then we just 
+            Database.database().reference().child("following").child(currentLoggedInUserId).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
+                    
+                    self.editProfileFollowButton.setTitle("Unfollow", for: .normal)
+                    
+                } else {
+                    //self.setupFollowStyle()
+                }
+                
+            }, withCancel: { (err) in
+                print("Failed to check if following:", err)
+            })
         }
+    
+    
+            
+            editProfileFollowButton.setTitle("Follow", for: .normal)
+            editProfileFollowButton.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 230)
+            editProfileFollowButton.setTitleColor(.white, for: .normal)
+            editProfileFollowButton.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+    
+        
+    }
+        
+        @objc func handleEditProfileOrFollow() {
+            
+            guard let currentLoggedinUserID = Auth.auth().currentUser?.uid else {return}
+            
+            guard let userID = user?.uid else {return}
+            
+            let ref =    Database.database().reference().child("following").child(currentLoggedinUserID)
+            
+            //Array of the people you follow
+            let values = [userID: 1]
+            
+            
+            ref.updateChildValues(values) { (err, ref) in
+                if let err = err {
+                    print("Failed to follow user: \(err)")
+                    return
+                }
+                
+                print("Successfuly followed user : \(self.user?.username ?? "")")
+            }
+            
         
         
     }
@@ -132,7 +172,7 @@ class UserProfileHeader: UICollectionViewCell {
         return label
     }()
     //By using the .layer option, we utilize animation and can then render the object with cornerRadius, with the borderWitdth, and the borderColor
-    let editProfileFollowButton : UIButton = {
+    lazy var editProfileFollowButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Edit Profile", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -140,9 +180,12 @@ class UserProfileHeader: UICollectionViewCell {
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 3
+        button.addTarget(self, action: #selector(handleEditProfileOrFollow), for: .touchUpInside)
         
         return button
     }()
+    
+    
     
     
     //Override init allows you to instantialize the collectionView and initialize using super.init(frame:frame)
@@ -167,10 +210,10 @@ class UserProfileHeader: UICollectionViewCell {
         
         
         addSubview(usernamelabel)
-        addSubview(editProfileButton)
+        addSubview(editProfileFollowButton)
         
         
-        editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: followingLabel.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
+        editProfileFollowButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: followingLabel.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
         
         usernamelabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: gridButton.topAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 25, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
         
