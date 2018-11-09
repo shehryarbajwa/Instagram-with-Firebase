@@ -34,7 +34,7 @@ class MainTabBarController : UITabBarController, UITabBarControllerDelegate {
             
             return false
         }
-        print(index)
+        
         
         return true
     }

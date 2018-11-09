@@ -25,7 +25,24 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     fileprivate func setupEditFollowButton(){
-        editProfileButton.setTitle("Follow", for: .normal)
+        
+        //To check if this is the current user logged in
+        guard let currentLoggedInUser = Auth.auth().currentUser?.uid else {return}
+        
+        print(currentLoggedInUser)
+        
+        //This just gets the user ID of the indexPath user
+        //Question is where is this being set? In the IndexPath of the SearchItem I suppose. Lets find out. This is the userID of the indexPath
+        guard let userid = user?.uid else {return}
+        
+        
+        if currentLoggedInUser == userid {
+            editProfileFollowButton.setTitle("Edit Profile", for: .normal)
+        } else {
+            editProfileFollowButton.setTitle("Follow", for: .normal)
+        }
+        
+        
     }
     
     
@@ -115,7 +132,7 @@ class UserProfileHeader: UICollectionViewCell {
         return label
     }()
     //By using the .layer option, we utilize animation and can then render the object with cornerRadius, with the borderWitdth, and the borderColor
-    let editProfileButton : UIButton = {
+    let editProfileFollowButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Edit Profile", for: .normal)
         button.setTitleColor(.black, for: .normal)

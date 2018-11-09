@@ -21,7 +21,7 @@ class SharePhotoController : UIViewController {
         
         //What is this property? DidSet is a property observer that observes the changes in a property's values. They are called each time a value is set for a property. Property observers are declared with var and not let. Once there is a change in the selectedImage we change the imageView's image to be the selectedimage
         didSet {
-            print(selectedImage)
+            
             
             self.imageView.image = selectedImage
         }

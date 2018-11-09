@@ -107,9 +107,6 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
                 
                 let user = User(uid: key, dictionary: userDictionary)
                 
-                
-                
-                
                 self.users.append(user)
                 
             })
