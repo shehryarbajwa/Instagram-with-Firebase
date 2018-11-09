@@ -87,7 +87,7 @@ class UserProfileHeader: UICollectionViewCell {
                 print("Successfully followed user: \(self.user?.username ?? "") ")
                 
                 self.editProfileFollowButton.setTitle("Unfollow", for: .normal)
-                self.editProfileFollowButton.backgroundColor = .white
+                self.editProfileFollowButton.backgroundColor = .red
                 self.editProfileFollowButton.setTitleColor(.black, for: .normal)
             }
         }
