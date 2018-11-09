@@ -18,6 +18,8 @@ class UserProfileHeader: UICollectionViewCell {
             guard let profileImageUrl = user?.profileImageUrl else {return}
             profileImageView.loadImage(urlString: profileImageUrl)
             
+            usernamelabel.text = user?.username
+            
         }
     }
     
@@ -56,7 +58,7 @@ class UserProfileHeader: UICollectionViewCell {
     
     let usernamelabel : UILabel = {
         let label = UILabel()
-        
+        label.text = "username"
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
@@ -148,7 +150,9 @@ class UserProfileHeader: UICollectionViewCell {
         
         editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: followingLabel.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
         
-        usernamelabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: postsLabel.rightAnchor, paddingTop: 200, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
+        usernamelabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: gridButton.topAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 25, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
+        
+        
         
     }
     
