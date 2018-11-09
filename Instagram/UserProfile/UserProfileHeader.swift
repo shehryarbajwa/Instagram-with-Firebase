@@ -20,7 +20,12 @@ class UserProfileHeader: UICollectionViewCell {
             
             usernamelabel.text = user?.username
             
+            setupEditFollowButton()
         }
+    }
+    
+    fileprivate func setupEditFollowButton(){
+        editProfileButton.setTitle("Follow", for: .normal)
     }
     
     
