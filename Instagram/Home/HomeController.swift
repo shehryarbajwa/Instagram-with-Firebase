@@ -149,6 +149,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             })
             
             self.Posts.sort(by: { (p1, p2) -> Bool in
+                //Sort the posts in descending order. Means the latest first and the last least
                 return p1.creationDate.compare(p2.creationDate) == .orderedDescending
             })
             
