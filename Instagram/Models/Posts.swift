@@ -15,6 +15,7 @@ struct Post {
     let imageUrl : String
     let user : User?
     let caption : String
+    let creationDate : Date
     
     
     //Initialized with a dictionary so its initial value is a dictionary whcih then contains values. Basically this struct is a dictionary
@@ -23,6 +24,9 @@ struct Post {
         self.user = user
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""
         self.caption = dictionary["caption"] as? String ?? ""
+        
+        let secondsfrom1970 = dictionary["creationDate"] as? Double ?? 0
+        self.creationDate = Date(timeIntervalSince1970: secondsfrom1970)
         
         
         
