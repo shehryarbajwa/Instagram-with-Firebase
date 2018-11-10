@@ -39,6 +39,12 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             self.fetchpostswithuser(user: user)
         }
         
+        Database.fetchUserwithUID(uid: "D54ouWPXZtUQQCypTbI912hgjW93") { (user) in
+            self.fetchpostswithuser(user: user)
+        }
+        
+        
+        
     }
     
     func setupNavigationBar(){
