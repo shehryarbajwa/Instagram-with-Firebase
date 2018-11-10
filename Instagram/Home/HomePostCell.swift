@@ -61,7 +61,7 @@ class HomePostCell: UICollectionViewCell {
         //This will give two lines between the last text and the new text
         attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
         
-        let timeagoDisplay = post.creationDate.description
+        let timeagoDisplay = post.creationDate.timeAgoDisplay()
         
         attributedText.append(NSAttributedString(string: timeagoDisplay, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
         
