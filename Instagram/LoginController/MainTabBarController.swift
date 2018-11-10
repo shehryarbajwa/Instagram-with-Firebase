@@ -107,7 +107,7 @@ class MainTabBarController : UITabBarController, UITabBarControllerDelegate {
         
        
         
-        viewControllers = [navController , searchNavController , plusNavController , likeNavController , homeNavController]
+        viewControllers = [homeNavController , searchNavController , plusNavController , likeNavController , navController]
         
         //What is this?
         
