@@ -35,12 +35,13 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         fetchPosts()
         setupNavigationBar()
         
-        Database.fetchUserwithUID(uid: "2IZvGMSyOXecsmmlQb0jEhl7rfQ2") { (user) in
-            self.fetchpostswithuser(user: user)
-        }
+       
+        guard let uid = Auth.auth().currentUser?.uid else {return}
         
-        Database.fetchUserwithUID(uid: "D54ouWPXZtUQQCypTbI912hgjW93") { (user) in
-            self.fetchpostswithuser(user: user)
+        Database.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            print(snapshot.value)
+        }) { (err) in
+            print("Failed to fetch following users :\(err)")
         }
         
         
