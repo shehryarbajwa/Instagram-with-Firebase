@@ -155,7 +155,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             
             self.collectionView?.reloadData()
             
-            
+            //Added new files
             
         }
     }
