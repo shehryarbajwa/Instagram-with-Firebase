@@ -36,20 +36,19 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
         
-        fetchPosts()
+        fetchAllposts()
         setupNavigationBar()
-        
-       
-        
-        fetchFollowinguserID()
-        
         
     }
     
     @objc func handleRefresh(){
+        fetchAllposts()
+        Posts.removeAll()
+    }
+    
+    fileprivate func fetchAllposts(){
         fetchPosts()
         fetchFollowinguserID()
-        print("Refreshing")
     }
     
     fileprivate func fetchFollowinguserID(){
