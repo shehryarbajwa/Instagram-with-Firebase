@@ -24,6 +24,8 @@ class CustomImageView : UIImageView {
     
     func loadImage(urlString : String){
         
+        self.image = nil
+        
         lasturlusedtoloadImage = urlString
         guard let url = URL(string: urlString) else {return}
         URLSession.shared.dataTask(with: url) { (data, response, error) in
