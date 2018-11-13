@@ -167,8 +167,8 @@ class SharePhotoController : UIViewController {
             self.dismiss(animated: true, completion: nil)
             
             let name = NSNotification.Name(rawValue: "UpdateFeed")
-            //
-            NotificationCenter.default.post(name: name, object: <#T##Any?#>)
+            
+            NotificationCenter.default.post(name: name, object: nil)
         }
     }
     
