@@ -35,7 +35,9 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellID)
-        
+        //Added the refresh control
+        //Then added a target which is handleRefresh which is just fetching posts again
+        //It allows the collectionView to refresh its Control
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
@@ -148,7 +150,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         let ref = Database.database().reference().child("posts").child(user.uid)
         
         ref.observeSingleEvent(of: .value) { (snapshot) in
-            
+            //End refreshing once you observe the posts with user
+            //Then update the list
             self.collectionView?.refreshControl?.endRefreshing()
             //dictionaries refers to the values of caption, creationDate, Height
             guard let dictionaries = snapshot.value as? [String:Any] else {return}
