@@ -24,9 +24,10 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let name = NSNotification.Name(rawValue: "UpdateFeed")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatefeed), name: name, object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatefeed), name: SharePhotoController.updateFeedNotification, object: nil)
         
         collectionView?.backgroundColor = .white
         //For creating custom cells in the homenewsfeed which will contain the posts

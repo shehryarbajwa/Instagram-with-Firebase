@@ -121,8 +121,8 @@ class SharePhotoController : UIViewController {
             })
         }
     }
-    
-    static let name = NSNotification.Name(rawValue: "UpdateFeed")
+    //The use of static is for the variable to be used across different classes
+    static let updateFeedNotification = NSNotification.Name(rawValue: "UpdateFeed")
     
     fileprivate func savetoDatabaseWithImageUrl(imageUrl: String){
         
@@ -170,7 +170,7 @@ class SharePhotoController : UIViewController {
             
             
             
-            NotificationCenter.default.post(name: name, object: nil)
+            NotificationCenter.default.post(name: SharePhotoController.updateFeedNotification, object: nil)
         }
     }
     
