@@ -32,6 +32,10 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellID)
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView?.refreshControl = refreshControl
+        
         fetchPosts()
         setupNavigationBar()
         
@@ -40,6 +44,12 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         fetchFollowinguserID()
         
         
+    }
+    
+    @objc func handleRefresh(){
+        fetchPosts()
+        fetchFollowinguserID()
+        print("Refreshing")
     }
     
     fileprivate func fetchFollowinguserID(){
@@ -132,6 +142,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         ref.observeSingleEvent(of: .value) { (snapshot) in
             
+            self.collectionView?.refreshControl?.endRefreshing()
             //dictionaries refers to the values of caption, creationDate, Height
             guard let dictionaries = snapshot.value as? [String:Any] else {return}
             
