@@ -122,6 +122,8 @@ class SharePhotoController : UIViewController {
         }
     }
     
+    static let name = NSNotification.Name(rawValue: "UpdateFeed")
+    
     fileprivate func savetoDatabaseWithImageUrl(imageUrl: String){
         
         //The Firebase Realtime Database stores JSON application data, like game state or chat messages, and synchronizes changes instantly across all connected devices.
@@ -166,7 +168,7 @@ class SharePhotoController : UIViewController {
             print("Successfully saved post to DB")
             self.dismiss(animated: true, completion: nil)
             
-            let name = NSNotification.Name(rawValue: "UpdateFeed")
+            
             
             NotificationCenter.default.post(name: name, object: nil)
         }
