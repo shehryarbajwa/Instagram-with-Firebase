@@ -15,6 +15,31 @@ class Cameracontroller : UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .green
+        
+        setupCaptureSession()
+    }
+    
+    fileprivate func setupCaptureSession(){
+        let captureSession = AVCaptureSession()
+        //Uses for video and audio capabilities
+        //The AVCApture Session, use to coordinate the flow of data from AV input devices to output
+        
+        //1- Setup inputs
+        let input = AVCaptureInput()
+        
+        
+        captureSession.addInput(<#T##input: AVCaptureInput##AVCaptureInput#>)
+        
+        
+        //2-Setup Outputs
+        //3-Set up preview
+        
+        let captureSession = AVCaptureSession()
+        
+        
+        
+        
+        
     }
     
     
