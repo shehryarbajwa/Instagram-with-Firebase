@@ -83,9 +83,12 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     func setupNavigationBar(){
         navigationItem.titleView = UIImageView(image: UIImage(named: "logo2"))
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "camera3")?.withRenderingMode(.alwaysOriginal), landscapeImagePhone: UIImage(named: "camera3"), style: .plain, target: self, action: #selector(handleCamera))
     }
     
-    
+    @objc func handleCamera(){
+        print("Showcasing camera")
+    }
     
     
     
