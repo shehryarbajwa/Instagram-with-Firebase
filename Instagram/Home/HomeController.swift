@@ -88,7 +88,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     
     @objc func handleCamera(){
         print("Showcasing camera")
-        let cameraController = Cameracontroller()
+        let cameraController = CameraController()
         present(cameraController, animated: true, completion: nil)
     }
     
