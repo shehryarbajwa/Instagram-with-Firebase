@@ -28,9 +28,6 @@ class CameraController: UIViewController {
         return button
     }()
     
-    @objc func handleCapturePhoto() {
-        print("Capturing photo...")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +43,11 @@ class CameraController: UIViewController {
         
         view.addSubview(dismissButton)
         dismissButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 80, height: 80)
+    }
+    
+    @objc func handleCapturePhoto() {
+        
+        print("Capturing photo...")
     }
     
     fileprivate func setupCaptureSession() {
