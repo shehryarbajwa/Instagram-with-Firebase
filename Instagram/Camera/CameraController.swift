@@ -49,7 +49,6 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         print("Capturing photo...")
         
         let settings = AVCapturePhotoSettings()
-        
         #if (!arch(x86_64))
         guard let previewFormatType = settings.availablePreviewPhotoPixelFormatTypes.first else { return }
         
