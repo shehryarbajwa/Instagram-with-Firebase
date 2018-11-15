@@ -9,12 +9,15 @@ import AVFoundation
 
 class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
+    //Use the AVCapturePhotoCaptureDelegate to use the Camera
+    //Use the dismiss button and add a target when its touched
     let dismissButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "right_arrow_shadow"), for: .normal)
         button.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
         return button
     }()
+    
     
     @objc func handleDismiss() {
         
@@ -35,7 +38,7 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         setupCaptureSession()
         setupHUD()
     }
-    
+    //Setup anchors for the buttons
     fileprivate func setupHUD() {
         view.addSubview(capturePhotoButton)
         capturePhotoButton.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 24, paddingRight: 0, width: 80, height: 80)
@@ -47,23 +50,35 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     @objc func handleCapturePhoto() {
         print("Capturing photo...")
-        
+        //A specification of the features and settings to use for a single photo capture request. This is AVCApturePhotoSettings()
         let settings = AVCapturePhotoSettings()
         #if (!arch(x86_64))
+        //PreviewFormt is the image you get once u get a camera click. If you don't want to save it then you can discard it
+        //AVCapturePhotoSettings.availablePreviewPhotoPixelFormatTypes.first returns the first element for preview
         guard let previewFormatType = settings.availablePreviewPhotoPixelFormatTypes.first else { return }
         
+        //We have to set the previewPhotoFormat
         settings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewFormatType]
         
+        output.isHighResolutionCaptureEnabled = true
         output.capturePhoto(with: settings, delegate: self)
         #endif
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         
+        //A CMSampleBuffer is a Core Foundation object containing zero or more compressed (or uncompressed) samples of a particular media type (audio, video, muxed, and so on).
+        // AVCaptureBracketedStillImageSettings A description of the features and settings in use for an in-progress or complete photo capture request. Photo capture settings
+        // imageData contains the outPut in JPEG format with forJpegSampleBuffer to be the photoSampleBuffer, and the previewBuffer to be the previewPhotoSampleBuffer
+        
+        
         let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer!)
         
+        
+        //Preview image will contain the JPEG data captured above
         let previewImage = UIImage(data: imageData!)
         
+        //ImageView will then contain the image
         let previewImageView = UIImageView(image: previewImage)
         view.addSubview(previewImageView)
         previewImageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -71,7 +86,8 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         print("Finished processing sample buffer...")
     }
     
-    
+    //Output refers to the AVCapturePhotoOutput
+    //CaptureSession refers to An object that manages capture activity and coordinates the flow of data from input devices to capture outputs.
     let output = AVCapturePhotoOutput()
     fileprivate func setupCaptureSession() {
         let captureSession = AVCaptureSession()
@@ -79,6 +95,8 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         //1. setup inputs
         guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
         
+        
+        //If an error is thrown by the code in the do clause, it is matched against the catch clauses to determine which one of them can handle the error.
         do {
             let input = try AVCaptureDeviceInput(device: captureDevice)
             if captureSession.canAddInput(input) {
