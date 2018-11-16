@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Photos
 
 class PreviewPhotoContainerView : UIView {
     
@@ -56,6 +57,28 @@ class PreviewPhotoContainerView : UIView {
     }
     
     @objc func handleSave(){
+        print("Saving images")
+        
+        guard let previewImage = previewImageView.image else {return}
+        
+        //PhPhotoLibrary is A shared object that manages access and changes to the user’s shared photo library.
+        let library = PHPhotoLibrary.shared()
+        library.performChanges({
+            //creationRequest for Asset Creates a request for adding a new image asset to the Photos library
+            //A request to create, delete, change metadata for, or edit the content of a Photos asset, for use in a photo library change block is called PHAssetChangeRequest
+            PHAssetChangeRequest.creationRequestForAsset(from: previewImage)
+            
+            
+            
+            
+        }) { (success, err) in
+            if let err = err {
+                print("Failed to save image to PhotoLibrary :\(err)")
+                return
+            }
+            
+            print("Successfully saved the image to the library")
+        }
         
     }
     
