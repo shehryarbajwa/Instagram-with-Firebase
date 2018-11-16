@@ -80,6 +80,8 @@ class PreviewPhotoContainerView : UIView {
             print("Successfully saved the image to the library")
             
             DispatchQueue.main.async {
+                //We create a label on the main sync since it has to view on the main thread working with the UI in real time
+                //It has properties, text, textColor, font, number of lines, background color and textAllignment
                 let savedLabel = UILabel()
                 savedLabel.text = "Saved successfully"
                 savedLabel.textColor = .white
@@ -90,24 +92,29 @@ class PreviewPhotoContainerView : UIView {
                 
                 //When we are animating views inside a view, it is much easier to use a frame rather than use an anchor
                 
+                //The label itself has a frame which has a width height of CGRect and we can add a subview with it
+                
                 savedLabel.frame = CGRect(x: 0, y: 0, width: 150, height: 80)
                 savedLabel.center = self.center
                 
                 self.addSubview(savedLabel)
                 
+                //savedLayer.layer.transform allows The transform applied to the layer’s contents. Animatable. CATransform3D Returns a transform that scales by (sx, sy, sz).
+                //This is how it loads up
                 savedLabel.layer.transform = CATransform3DMakeScale(0, 0, 0)
-                
+                //UIView.animate withDuration, delay usingSpring with damping are all visual effects
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
                     
-                    
+                    //This is how it gets animated once it is on the screen showing all its label contents
                     savedLabel.layer.transform = CATransform3DMakeScale(1, 1, 1)
                     savedLabel.alpha = 0
                 
                 }, completion: { (completed) in
-                    
+                    //This is how it fades back in the background
                     UIView.animate(withDuration: 0.5, delay: 0.75, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
                         savedLabel.layer.transform = CATransform3DMakeScale(0.1, 0.1, 0.1)
                     }, completion: { (completion) in
+                        //To remove the label, you can remove it from superview
                         savedLabel.removeFromSuperview()
                     })
                     
