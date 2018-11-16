@@ -47,13 +47,16 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     @objc func handleCapturePhoto() {
         print("Capturing photo...")
+        
         let settings = AVCapturePhotoSettings()
         
-        guard let previewformattype = settings.availablePreviewPhotoPixelFormatTypes.first else {return}
+        #if (!arch(x86_64))
+        guard let previewFormatType = settings.availablePreviewPhotoPixelFormatTypes.first else { return }
         
-        settings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewformattype]
+        settings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewFormatType]
+        
         output.capturePhoto(with: settings, delegate: self)
-        
+        #endif
     }
     
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
