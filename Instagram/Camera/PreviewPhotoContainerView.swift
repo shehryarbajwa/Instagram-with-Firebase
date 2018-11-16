@@ -11,7 +11,7 @@ import UIKit
 
 class PreviewPhotoContainerView : UIView {
     
-    let previewImageView : UIImageView = {
+    let previewImageView: UIImageView = {
         let iv = UIImageView()
         return iv
     }()
@@ -40,7 +40,12 @@ class PreviewPhotoContainerView : UIView {
         addSubview(previewImageView)
         previewImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        cancelButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        addSubview(cancelButton)
+        cancelButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        
+        addSubview(saveButton)
+        saveButton.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 0, width: 50, height: 50)
+        
         
         
         

@@ -78,7 +78,11 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         //Preview image will contain the JPEG data captured above
         let previewImage = UIImage(data: imageData!)
         
+        
+        
         let containerView = PreviewPhotoContainerView()
+        //containerView.previewImageView.image = previewImage
+        //containerView.previewImageView.image = previewImage
         containerView.previewImageView.image = previewImage
         view.addSubview(containerView)
         containerView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
