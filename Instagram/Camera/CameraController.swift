@@ -73,7 +73,7 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         
         
-        
+        //How does the TakePicture button know which button is pressed? Only when the handlePhoto button is pressed, then the AVCApturing begins. In the capture class, we add the subview and once we run it, it displays the yellow screen
         
         //Preview image will contain the JPEG data captured above
         let previewImage = UIImage(data: imageData!)
