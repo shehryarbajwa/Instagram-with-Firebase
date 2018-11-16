@@ -12,6 +12,7 @@
 		E609B957219BE94F006EF133 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E609B956219BE94F006EF133 /* CameraController.swift */; };
 		E60DD0912186E3DB00D91362 /* CustomImageViewSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60DD0902186E3DB00D91362 /* CustomImageViewSubclass.swift */; };
 		E633E4B7218EED940025C754 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633E4B6218EED940025C754 /* Users.swift */; };
+		E63494B8219E8F4C00D9830F /* PreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63494B7219E8F4C00D9830F /* PreviewPhotoContainerView.swift */; };
 		E63902AC21699C09004DE5A0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E63902AB21699C09004DE5A0 /* GoogleService-Info.plist */; };
 		E63923FD216D4CE000C34F23 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63923FC216D4CE000C34F23 /* MainTabBarController.swift */; };
 		E63923FF216D4E9C00C34F23 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63923FE216D4E9C00C34F23 /* UserProfileController.swift */; };
@@ -67,6 +68,7 @@
 		E609B956219BE94F006EF133 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		E60DD0902186E3DB00D91362 /* CustomImageViewSubclass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageViewSubclass.swift; sourceTree = "<group>"; };
 		E633E4B6218EED940025C754 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		E63494B7219E8F4C00D9830F /* PreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPhotoContainerView.swift; sourceTree = "<group>"; };
 		E63902AB21699C09004DE5A0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E63923FC216D4CE000C34F23 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		E63923FE216D4E9C00C34F23 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				E609B956219BE94F006EF133 /* CameraController.swift */,
+				E63494B7219E8F4C00D9830F /* PreviewPhotoContainerView.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				E633E4B7218EED940025C754 /* Users.swift in Sources */,
 				E69C97712146CA7800CC1D96 /* AppDelegate.swift in Sources */,
 				E663EF8221759CDA00E51350 /* LoginController.swift in Sources */,
+				E63494B8219E8F4C00D9830F /* PreviewPhotoContainerView.swift in Sources */,
 				E60DD0912186E3DB00D91362 /* CustomImageViewSubclass.swift in Sources */,
 				E6576F8D218C0A1C00A94433 /* HomePostCell.swift in Sources */,
 				E67CDFAC217EE1550096556B /* PhotoSelectorHeader.swift in Sources */,
