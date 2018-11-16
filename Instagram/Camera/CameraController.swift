@@ -34,7 +34,7 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        
         setupCaptureSession()
         setupHUD()
     }
@@ -50,17 +50,14 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     @objc func handleCapturePhoto() {
         print("Capturing photo...")
-        //A specification of the features and settings to use for a single photo capture request. This is AVCApturePhotoSettings()
+        
         let settings = AVCapturePhotoSettings()
+        
         #if (!arch(x86_64))
-        //PreviewFormt is the image you get once u get a camera click. If you don't want to save it then you can discard it
-        //AVCapturePhotoSettings.availablePreviewPhotoPixelFormatTypes.first returns the first element for preview
         guard let previewFormatType = settings.availablePreviewPhotoPixelFormatTypes.first else { return }
         
-        //We have to set the previewPhotoFormat
         settings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewFormatType]
         
-        output.isHighResolutionCaptureEnabled = true
         output.capturePhoto(with: settings, delegate: self)
         #endif
     }
@@ -75,6 +72,9 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer!)
         
         
+        
+        
+        
         //Preview image will contain the JPEG data captured above
         let previewImage = UIImage(data: imageData!)
         
@@ -86,13 +86,14 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
 //        let previewImageView = UIImageView(image: previewImage)
 //        view.addSubview(previewImageView)
 //        previewImageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-//        
+//
 //        print("Finished processing sample buffer...")
     }
     
     //Output refers to the AVCapturePhotoOutput
     //CaptureSession refers to An object that manages capture activity and coordinates the flow of data from input devices to capture outputs.
     let output = AVCapturePhotoOutput()
+    
     fileprivate func setupCaptureSession() {
         let captureSession = AVCaptureSession()
         
@@ -102,16 +103,17 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         //If an error is thrown by the code in the do clause, it is matched against the catch clauses to determine which one of them can handle the error.
         do {
-            let input = try AVCaptureDeviceInput(device: captureDevice)
-            if captureSession.canAddInput(input) {
-                captureSession.addInput(input)
-            }
-        } catch let err {
-            print("Could not setup camera input:", err)
-        }
+                        let input = try AVCaptureDeviceInput(device: captureDevice)
+                        if captureSession.canAddInput(input) {
+                            captureSession.addInput(input)
+                        }
+                    } catch let err {
+                        print("Could not setup camera input:", err)
+                    }
+        
+        
         
         //2. setup outputs
-        let output = AVCapturePhotoOutput()
         if captureSession.canAddOutput(output) {
             captureSession.addOutput(output)
         }
@@ -125,3 +127,5 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     }
     
 }
+
+//
