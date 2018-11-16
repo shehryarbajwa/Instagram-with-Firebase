@@ -13,7 +13,7 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     //Use the dismiss button and add a target when its touched
     let dismissButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "right_arrow_shadow"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "right_arrow_shadow").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
         return button
     }()
@@ -26,7 +26,7 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     let capturePhotoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "capture_photo"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "capture_photo").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handleCapturePhoto), for: .touchUpInside)
         return button
     }()
@@ -38,6 +38,11 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         setupCaptureSession()
         setupHUD()
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     //Setup anchors for the buttons
     fileprivate func setupHUD() {
         view.addSubview(capturePhotoButton)
