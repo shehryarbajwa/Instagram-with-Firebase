@@ -78,6 +78,23 @@ class PreviewPhotoContainerView : UIView {
             }
             
             print("Successfully saved the image to the library")
+            
+            DispatchQueue.main.async {
+                let savedLabel = UILabel()
+                savedLabel.text = "Saved successfully"
+                savedLabel.textColor = .white
+                savedLabel.backgroundColor = UIColor(white: 0, alpha: 0.3)
+                
+                //When we are animating views inside a view, it is much easier to use a frame rather than use an anchor
+                
+                savedLabel.frame = CGRect(x: 0, y: 0, width: 80, height: 150)
+                savedLabel.center = self.center
+                
+                self.addSubview(savedLabel)
+            }
+            
+            
+            
         }
         
     }
