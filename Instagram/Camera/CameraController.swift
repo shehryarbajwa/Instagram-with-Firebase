@@ -7,7 +7,9 @@
 import UIKit
 import AVFoundation
 
-class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
+class CameraController: UIViewController, AVCapturePhotoCaptureDelegate, UIViewControllerTransitioningDelegate {
+    
+    //UIViewControllerTransitionDelegate allows us to transition to the viewController
     
     //Use the AVCapturePhotoCaptureDelegate to use the Camera
     //Use the dismiss button and add a target when its touched
@@ -37,7 +39,17 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         setupCaptureSession()
         setupHUD()
+        transitioningDelegate = self
     }
+    
+    let customanimationpresenter = CustomAnimationPresenter()
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        return customanimationpresenter
+    }
+    
+    
     
     override var prefersStatusBarHidden: Bool {
         return true
