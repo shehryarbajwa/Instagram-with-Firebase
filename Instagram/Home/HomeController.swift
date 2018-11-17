@@ -89,7 +89,21 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     @objc func handleCamera(){
         print("Showcasing camera")
         let cameraController = CameraController()
-        present(cameraController, animated: true, completion: nil)
+        //Once the camera button is pushed, we use CATransition
+        //An object that provides an animated transition between a layer's states.
+        //transitions duration is 0.30
+        //transitions type is transitionPush, could be fade, move in, reveal
+        //Further, the subtype denotes how to present the subview
+        //Then just add to the layer and you are done
+        let transition = CATransition()
+        transition.duration = 0.30
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        self.view.window!.layer.add(transition, forKey: kCATransition)
+            
+        present(cameraController, animated: false)
+        
+        
     }
     
     
