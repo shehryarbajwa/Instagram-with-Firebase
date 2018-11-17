@@ -26,7 +26,7 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate, UIViewC
         let transition = CATransition()
         transition.duration = 0.30
         transition.type = kCATransitionPush
-        transition.subtype = kCATransitionFromLeft
+        transition.subtype = kCATransitionFromRight
         self.view.window?.layer.add(transition, forKey: kCATransition)
         dismiss(animated: false, completion: nil)
     }
