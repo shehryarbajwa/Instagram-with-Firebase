@@ -27,6 +27,7 @@ class CommentsController : UICollectionViewController{
         submitButton.setTitle("Submit", for: .normal)
         submitButton.setTitleColor(.black, for: .normal)
         submitButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        submitButton.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
         
         let textField = UITextField()
         textField.placeholder = "Enter Comment"
@@ -35,7 +36,7 @@ class CommentsController : UICollectionViewController{
         
         submitButton.anchor(top: containerView.topAnchor, left: nil, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 50, height: 0)
         
-        textField.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        textField.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         return containerView
     }()
@@ -55,6 +56,10 @@ class CommentsController : UICollectionViewController{
         get {
             return containerView
         }
+    }
+    
+    @objc func handleSubmit(){
+        print("Handle submit")
     }
     
     override var canBecomeFirstResponder: Bool {
