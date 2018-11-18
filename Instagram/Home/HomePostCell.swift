@@ -11,6 +11,10 @@ import UIKit
 //This cell renders the entirePost
 //This right here is an individual cell being created rather than having a collectionViewController. CollectionViewController then contains different cells to display different information
 
+//Super important. Delegate is a one-to-one viewController relationship. It is not like Notifications. Is it generally considered best practise to reduce the coupling or dependencies between classes in your application. A key benefit is that your code becomes easier to maintain since a change in one class is less likely to impact another dependent class.
+//The concept of delegation as its name suggests allows an object to send a message to another object (the delegate) so that it can customise the handling of an event.
+//Delegates are one-to-one information sharing object while notifications are one-to-many
+
 protocol HomePostCellDelegate {
     func didTapComment()
 }
@@ -173,7 +177,9 @@ class HomePostCell: UICollectionViewCell {
     }
     
     @objc func handleComment(){
+        //First it handles the object, then sends a message to whatever class you want to use it in
         print("Handling comments")
+        delegate?.didTapComment()
     }
     
     required init?(coder aDecoder: NSCoder) {

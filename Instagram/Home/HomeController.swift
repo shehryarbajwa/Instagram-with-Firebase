@@ -17,7 +17,18 @@ import Firebase
 
 
 
-class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
+    
+    func didTapComment() {
+        print("Message coming from HomepostCell")
+        let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(commentsController, animated: true)
+        //Once we get this information, we can then ask the viewController to push another ViewController on the stack of ViewControllers
+    }
+    
+    
+    
+    
     
     let imageUrl = "imageUrl"
     let cellID = "cellID"
@@ -139,6 +150,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         //This changes the post Variable in HomePostcell and notifies it which then marks when values are changed.
         cell.post = Posts[indexPath.item]
         
+        cell.delegate = self
+        
         return cell
     }
     //Posts is the empty array of imageURL's
@@ -198,6 +211,10 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             //Added new files. Another one
             
         }
+        
+       
+        
+        
     }
 }
 
