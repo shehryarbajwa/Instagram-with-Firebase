@@ -18,13 +18,19 @@ import Firebase
 
 
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
-    
-    func didTapComment() {
+    func didTapComment(post: Post) {
         print("Message coming from HomepostCell")
+        print(post.caption)
         let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
         navigationController?.pushViewController(commentsController, animated: true)
         //Once we get this information, we can then ask the viewController to push another ViewController on the stack of ViewControllers
     }
+    
+   
+    
+    
+    
+    
     
     
     
@@ -211,6 +217,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             //Added new files. Another one
             
         }
+        
+        
         
        
         

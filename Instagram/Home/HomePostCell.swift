@@ -182,7 +182,9 @@ class HomePostCell: UICollectionViewCell {
         //It is also important to know which comments button from what post is being clicked on
         
         print("Handling comments")
-        delegate?.didTapComment()
+        
+        guard let post = self.post else {return}
+        delegate?.didTapComment(post: post)
     }
     
     required init?(coder aDecoder: NSCoder) {
