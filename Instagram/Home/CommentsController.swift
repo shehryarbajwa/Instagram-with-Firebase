@@ -38,6 +38,7 @@ class CommentsController : UICollectionViewController{
             let submitButton = UIButton(type: .system)
             submitButton.setTitle("Submit", for: .normal)
             submitButton.setTitleColor(.black, for: .normal)
+            submitButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
             
             let textField = UITextField()
             textField.placeholder = "Enter Comment"
