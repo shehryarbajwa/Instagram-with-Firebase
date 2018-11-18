@@ -16,7 +16,7 @@ import UIKit
 //Delegates are one-to-one information sharing object while notifications are one-to-many
 
 protocol HomePostCellDelegate {
-    func didTapComment()
+    func didTapComment(post: Post)
 }
 
 class HomePostCell: UICollectionViewCell {
@@ -178,6 +178,9 @@ class HomePostCell: UICollectionViewCell {
     
     @objc func handleComment(){
         //First it handles the object, then sends a message to whatever class you want to use it in
+        //The delegation also allows you to figure out which item you are clicking on in your ViewController
+        //It is also important to know which comments button from what post is being clicked on
+        
         print("Handling comments")
         delegate?.didTapComment()
     }

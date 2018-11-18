@@ -13,7 +13,7 @@ class CommentsController : UICollectionViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        collectionView?.backgroundColor = .red
     }
     
     
