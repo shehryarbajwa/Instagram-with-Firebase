@@ -8,8 +8,11 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class CommentsController : UICollectionViewController{
+    
+    var post : Post?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +71,19 @@ class CommentsController : UICollectionViewController{
     @objc func handleSubmit(){
         guard let commenttext = commentTextField.text else {return}
         print("Printing comment from :\(commenttext)")
+        
+        let postId = "temporaryPostID"
+        let values = ["comment" : commenttext]
+        
+        
+        Database.database().reference().child("comments").child(postId).updateChildValues(values) { (err, ref) in
+            if let err = err {
+                print("Couldn't update the comments DB :\(err)")
+                return
+            }
+            
+            print("successfully added comment")
+        }
     }
     
     override var canBecomeFirstResponder: Bool {

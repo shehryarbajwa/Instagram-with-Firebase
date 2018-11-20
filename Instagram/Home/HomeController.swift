@@ -22,6 +22,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         print("Message coming from HomepostCell")
         print(post.caption)
         let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+        //Once a post is clicked on, we can then take the reference from the Post Struct and then allow this post to be used in CommentsController
+        commentsController.post = post
         navigationController?.pushViewController(commentsController, animated: true)
         //Once we get this information, we can then ask the viewController to push another ViewController on the stack of ViewControllers
     }
@@ -199,9 +201,12 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                 
                 guard let dictionary = value as? [String:Any] else {return}
                 
+                
+                
                 guard let imageURL = dictionary[self.imageUrl] as? String else {return}
                 
-                let post = Post(user: user, dictionary: dictionary)
+                var post = Post(user: user, dictionary: dictionary)
+                post.id = key
                 self.Posts.append(post)
                 
                 
