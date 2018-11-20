@@ -69,14 +69,18 @@ class CommentsController : UICollectionViewController{
     
     
     @objc func handleSubmit(){
+        
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        guard let postID = post?.id else {return}
+        print("postID :\(postID)")
         guard let commenttext = commentTextField.text else {return}
         print("Printing comment from :\(commenttext)")
         
-        let postId = "temporaryPostID"
-        let values = ["comment" : commenttext]
+        let postId = postID
+        let values = ["text" : commenttext , "creationDate" : Date().timeIntervalSince1970, "uid" : uid] as [String : Any]
         
         
-        Database.database().reference().child("comments").child(postId).updateChildValues(values) { (err, ref) in
+        Database.database().reference().child("comments").childByAutoId().child(postId).updateChildValues(values) { (err, ref) in
             if let err = err {
                 print("Couldn't update the comments DB :\(err)")
                 return
