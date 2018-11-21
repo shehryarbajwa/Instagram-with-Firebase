@@ -29,7 +29,7 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return comments.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,14 +79,23 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
         super.viewWillDisappear(true)
         tabBarController?.tabBar.isHidden = false
     }
-    
+    //empty comments array
+    var comments = [Comment]()
     fileprivate func fetchComments(){
         guard let postId = self.post?.id else {return}
         let ref = Database.database().reference().child("comments").child(postId)
         //To observe that value, use ref.observe with datatype and snapshot value
         ref.observe(.childAdded, with: { (snapshot) in
             //snapshot.value is the dictionary values of comments.child by postID
-            print(snapshot.value)
+            
+            
+            guard let dictionary = snapshot.value as? [String:Any] else {return}
+            
+            let comment = Comment(dictionary: dictionary)
+            
+            self.comments.append(comment)
+            self.collectionView?.reloadData()
+            
         }) { (err) in
             print("Failed to observe comments")
         }
