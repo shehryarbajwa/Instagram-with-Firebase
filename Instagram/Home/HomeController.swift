@@ -20,7 +20,7 @@ import Firebase
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
     func didTapComment(post: Post) {
         print("Message coming from HomepostCell")
-        print(post.caption)
+        //print(post.caption)
         let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
         //Once a post is clicked on, we can then take the reference from the Post Struct and then allow this post to be used in CommentsController
         commentsController.post = post

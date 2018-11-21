@@ -20,9 +20,11 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
         collectionView?.backgroundColor = .red
         
         collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
+        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
         
         collectionView?.register(CommentsCell.self, forCellWithReuseIdentifier: cellID)
         
+        fetchComments()
         
     }
     
@@ -34,6 +36,7 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CommentsCell
         return cell
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 100)
@@ -76,6 +79,18 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
         super.viewWillDisappear(true)
         tabBarController?.tabBar.isHidden = false
     }
+    
+    fileprivate func fetchComments(){
+        guard let postId = self.post?.id else {return}
+        let ref = Database.database().reference().child("comments").child(postId)
+        //To observe that value, use ref.observe with datatype and snapshot value
+        ref.observe(.childAdded, with: { (snapshot) in
+            //snapshot.value is the dictionary values of comments.child by postID
+            print(snapshot.value)
+        }) { (err) in
+            print("Failed to observe comments")
+        }
+    }
     //Every page inside iOS app has an inputAccessoryView
     //
     override var inputAccessoryView: UIView? {
@@ -86,31 +101,32 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
     
     
     
-    @objc func handleSubmit(){
+    @objc func handleSubmit() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        guard let postID = post?.id else {return}
-        print("postID :\(postID)")
-        guard let commenttext = commentTextField.text else {return}
-        print("Printing comment from :\(commenttext)")
+        print("post id:", self.post?.id ?? "")
         
-        let postId = postID
-        let values = ["text" : commenttext , "creationDate" : Date().timeIntervalSince1970, "uid" : uid] as [String : Any]
-        //Reference.child creates the child node comments, which then has another child called postID which is being fetched from the post
+        print("Inserting comment:", commentTextField.text ?? "")
         
-        Database.database().reference().child("comments").childByAutoId().child(postId).updateChildValues(values) { (err, ref) in
+        let postId = self.post?.id ?? ""
+        let values = ["text": commentTextField.text ?? "", "creationDate": Date().timeIntervalSince1970, "uid": uid] as [String : Any]
+        
+        Database.database().reference().child("comments").child(postId).childByAutoId().updateChildValues(values) { (err, ref) in
+            
             if let err = err {
-                print("Couldn't update the comments DB :\(err)")
+                print("Failed to insert comment:", err)
                 return
             }
             
-            print("successfully added comment")
+            print("Successfully inserted comment.")
         }
     }
     
     override var canBecomeFirstResponder: Bool {
         return true
     }
+    
+    
     
     
 }
