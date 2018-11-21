@@ -10,9 +10,27 @@ import Foundation
 import UIKit
 
 class CommentsCell: UICollectionViewCell {
+    
+    var comment : Comment? {
+        didSet {
+            print(comment?.text)
+        }
+    }
+    
+    let textLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.numberOfLines = 0
+        label.backgroundColor = .lightGray
+        return label
+        
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .yellow
+        addSubview(textLabel)
+        textLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {
