@@ -13,7 +13,8 @@ class CommentsCell: UICollectionViewCell {
     
     var comment : Comment? {
         didSet {
-            print(comment?.text)
+            
+            textLabel.text = comment?.text
         }
     }
     
@@ -30,7 +31,7 @@ class CommentsCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = .yellow
         addSubview(textLabel)
-        textLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        textLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 4, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {
