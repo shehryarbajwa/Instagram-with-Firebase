@@ -78,7 +78,7 @@ class CommentsController : UICollectionViewController{
         
         let postId = postID
         let values = ["text" : commenttext , "creationDate" : Date().timeIntervalSince1970, "uid" : uid] as [String : Any]
-        
+        //Reference.child creates the child node comments, which then has another child called postID which is being fetched from the post
         
         Database.database().reference().child("comments").childByAutoId().child(postId).updateChildValues(values) { (err, ref) in
             if let err = err {

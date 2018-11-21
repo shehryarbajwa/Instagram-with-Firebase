@@ -206,6 +206,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                 guard let imageURL = dictionary[self.imageUrl] as? String else {return}
                 
                 var post = Post(user: user, dictionary: dictionary)
+                //postId is being added here as the key from the posts dictionary which contains the child userID which contains key, value pairs. The post's id is the key of this
                 post.id = key
                 self.Posts.append(post)
                 
