@@ -10,15 +10,33 @@ import Foundation
 import UIKit
 import Firebase
 
-class CommentsController : UICollectionViewController{
+class CommentsController : UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     var post : Post?
+    let cellID = "cellId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.backgroundColor = .red
         
+        collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
         
+        collectionView?.register(CommentsCell.self, forCellWithReuseIdentifier: cellID)
+        
+        
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CommentsCell
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 100)
     }
     
     let commentTextField : UITextField = {
