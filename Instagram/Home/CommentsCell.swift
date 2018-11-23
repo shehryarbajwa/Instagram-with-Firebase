@@ -16,8 +16,6 @@ class CommentsCell: UICollectionViewCell {
             
             guard let comment = comment else {return}
             
-            
-            
             guard let username = comment.user?.username else {return}
             
             let attributedString = NSMutableAttributedString(string: username, attributes: [kCTFontAttributeName as NSAttributedString.Key : UIFont.boldSystemFont(ofSize: 14)])

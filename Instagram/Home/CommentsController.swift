@@ -40,7 +40,19 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 50)
+        
+        //we need to use dynamic sizing of cells
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let dummyCell = CommentsCell(frame: frame)
+        dummyCell.comment = comments[indexPath.item]
+        dummyCell.layoutIfNeeded()
+        
+        let targetSize = CGSize(width: view.frame.width, height: 1000)
+        //SystemLayoutSizeFitting allows you to return the optimal size of the view based on its current contraints
+        let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
+        //We decide 40 + 8 + 8 from the profileImageView's height
+        let height = max(40 + 8 + 8, estimatedSize.height)
+        return CGSize(width: view.frame.width, height: height)
     }
     
     let commentTextField : UITextField = {
