@@ -17,7 +17,7 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = .red
+        collectionView?.backgroundColor = .white
         
         collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
@@ -92,10 +92,20 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
             
             guard let dictionary = snapshot.value as? [String:Any] else {return}
             
-            let comment = Comment(dictionary: dictionary)
+            //Within each comment node, we have creationDate aswell as UID. That uid can then be used to fetch the profilfeimageURl associated with that UID
+            guard let uid = dictionary["uid"] as? String else {return}
             
-            self.comments.append(comment)
-            self.collectionView?.reloadData()
+            Database.fetchUserwithUID(uid: uid, completion: { (user) in
+                
+                //Once we run this completionBlock , we now have access to user
+                //Remember this logic. Each node creates a userID. Firebase can fetch the user with that userID
+                
+                var comment = Comment(user: user, dictionary: dictionary)
+                
+                self.comments.append(comment)
+                self.collectionView?.reloadData()
+                
+            })
             
         }) { (err) in
             print("Failed to observe comments")
