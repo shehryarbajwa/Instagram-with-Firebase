@@ -29,12 +29,13 @@ class CommentsCell: UICollectionViewCell {
         }
     }
     
-    let textLabel : UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.numberOfLines = 0
-        label.backgroundColor = .white
-        return label
+    let textLabel : UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 14)
+        textView.isScrollEnabled = false
+        //label.numberOfLines = 0
+        //label.backgroundColor = .white
+        return textView
         
     }()
     //Create an imageView based off the imageView class we have declared before

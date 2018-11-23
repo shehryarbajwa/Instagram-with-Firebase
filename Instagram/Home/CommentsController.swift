@@ -25,6 +25,8 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
         collectionView?.register(CommentsCell.self, forCellWithReuseIdentifier: cellID)
         
         fetchComments()
+        collectionView?.alwaysBounceVertical = true
+        collectionView?.keyboardDismissMode = .interactive
         
     }
     
@@ -36,6 +38,10 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CommentsCell
         cell.comment = self.comments[indexPath.item]
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
     
@@ -79,6 +85,12 @@ class CommentsController : UICollectionViewController, UICollectionViewDelegateF
         submitButton.anchor(top: containerView.topAnchor, left: nil, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 50, height: 0)
         
          commentTextField.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        let lineSeperatorView = UIView()
+        lineSeperatorView.backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        containerView.addSubview(lineSeperatorView)
+        lineSeperatorView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
+        
         
         return containerView
     }()
