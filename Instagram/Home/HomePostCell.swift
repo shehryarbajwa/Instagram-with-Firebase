@@ -102,9 +102,10 @@ class HomePostCell: UICollectionViewCell {
         return button
     }()
     
-    let likeButton : UIButton = {
+    lazy var likeButton : UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "like_unselected")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         return button
     }()
     
@@ -174,6 +175,10 @@ class HomePostCell: UICollectionViewCell {
         stackView.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 120, height: 50)
         addSubview(ribbonButton)
         ribbonButton.anchor(top: photoImageView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 50)
+    }
+    
+    @objc func handleLike(){
+        print("Like button set")
     }
     
     @objc func handleComment(){
