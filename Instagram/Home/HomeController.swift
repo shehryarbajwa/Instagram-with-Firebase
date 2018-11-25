@@ -228,6 +228,14 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                 var post = Post(user: user, dictionary: dictionary)
                 //postId is being added here as the key from the posts dictionary which contains the child userID which contains key, value pairs. The post's id is the key of this
                 post.id = key
+                guard let uid = Auth.auth().currentUser?.uid else {return}
+                Database.database().reference().child("likes").child(key).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                    print(snapshot.value)
+                }, withCancel: { (err) in
+                    print("Failed to fetch likes :\(err)")
+                    
+                })
+                
                 self.Posts.append(post)
                 
                 

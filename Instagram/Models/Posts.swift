@@ -13,7 +13,7 @@ struct Post {
     //Add the user and the caption in the Post struct aswell
     //By having an optional string here, we don't have to initialize it since it could be nil or some value
     var id : String?
-    var hasliked : Bool = true
+    var hasliked : Bool = false
     
     let imageUrl : String
     let user : User?
