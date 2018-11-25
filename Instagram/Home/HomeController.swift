@@ -231,6 +231,12 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                 guard let uid = Auth.auth().currentUser?.uid else {return}
                 Database.database().reference().child("likes").child(key).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     print(snapshot.value)
+                    
+                    if let value = snapshot.value as? Int, value == 1 {
+                        post.hasliked = true
+                    } else {
+                        post.hasliked = false
+                    }
                 }, withCancel: { (err) in
                     print("Failed to fetch likes :\(err)")
                     
