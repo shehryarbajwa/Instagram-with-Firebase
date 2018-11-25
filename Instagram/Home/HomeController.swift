@@ -18,22 +18,29 @@ import Firebase
 
 
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
+    
     func didLike(for cell: HomePostCell) {
         //The indexPath returns the collectionView's indexPath that is selected
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
-        let posts = self.Posts[indexPath.item]
+        var posts = self.Posts[indexPath.item]
         print(posts.caption)
         guard let postid = posts.id else {return}
         
         guard let uid = Auth.auth().currentUser?.uid else {return}
         
-        let values = [uid:1]
+        let values = [uid: posts.hasliked == true ? 0 : 1]
         Database.database().reference().child("likes").child(postid).updateChildValues(values) { (err, ref) in
             if let err = err {
                 print("Failed to like posts \(err)")
                 return
             }
             print("Successfuly liked posts")
+            
+            posts.hasliked = !posts.hasliked
+            
+            self.Posts[indexPath.item] = posts
+            
+            self.collectionView?.reloadItems(at: [indexPath])
         }
         print("Handling like inside of Controller")
     }
@@ -110,7 +117,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             
             userIdsDictionary.forEach({ (key, value) in
                 Database.fetchUserwithUID(uid: key, completion: { (user) in
-                    self.fetchpostswithuser(user: user)
+                    self.fetchPostsWithUser(user: user)
                 })
             })
             
@@ -196,67 +203,50 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         //We use the completionBlock within fetchUserwithUID so that we can fetchpostswithuser once we make the Firebase network requests aswell as the
         
         Database.fetchUserwithUID(uid: uid) { (user) in
-            self.fetchpostswithuser(user: user)
+            self.fetchPostsWithUser(user: user)
         }
     }
     
     
-    fileprivate func fetchpostswithuser(user: User){
-        
-        
-        
-        //guard let uid = Auth.auth().currentUser?.uid else {return}
-        
+    fileprivate func fetchPostsWithUser(user: User) {
         let ref = Database.database().reference().child("posts").child(user.uid)
-        
-        ref.observeSingleEvent(of: .value) { (snapshot) in
-            //End refreshing once you observe the posts with user
-            //Then update the list
-            self.collectionView?.refreshControl?.endRefreshing()
-            //dictionaries refers to the values of caption, creationDate, Height
-            guard let dictionaries = snapshot.value as? [String:Any] else {return}
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
-            //For each accesses just the imageURL
+            self.collectionView?.refreshControl?.endRefreshing()
+            
+            guard let dictionaries = snapshot.value as? [String: Any] else { return }
+            
             dictionaries.forEach({ (key, value) in
-                
-                guard let dictionary = value as? [String:Any] else {return}
-                
-                
-                
-                guard let imageURL = dictionary[self.imageUrl] as? String else {return}
+                guard let dictionary = value as? [String: Any] else { return }
                 
                 var post = Post(user: user, dictionary: dictionary)
-                //postId is being added here as the key from the posts dictionary which contains the child userID which contains key, value pairs. The post's id is the key of this
                 post.id = key
-                guard let uid = Auth.auth().currentUser?.uid else {return}
+                
+                guard let uid = Auth.auth().currentUser?.uid else { return }
                 Database.database().reference().child("likes").child(key).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                    print(snapshot.value)
+                    print(snapshot)
                     
                     if let value = snapshot.value as? Int, value == 1 {
                         post.hasliked = true
                     } else {
                         post.hasliked = false
                     }
-                }, withCancel: { (err) in
-                    print("Failed to fetch likes :\(err)")
                     
+                    self.Posts.append(post)
+                    self.Posts.sort(by: { (p1, p2) -> Bool in
+                        return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+                    })
+                    self.collectionView?.reloadData()
+                    
+                }, withCancel: { (err) in
+                    print("Failed to fetch like info for post:", err)
                 })
-                
-                self.Posts.append(post)
-                
-                
             })
             
-            self.Posts.sort(by: { (p1, p2) -> Bool in
-                //Sort the posts in descending order. Means the latest first and the last least
-                return p1.creationDate.compare(p2.creationDate) == .orderedDescending
-            })
-            
-            self.collectionView?.reloadData()
-            
-            //Added new files. Another one
-            
+        }) { (err) in
+            print("Failed to fetch posts:", err)
         }
+    }
         
         
         
@@ -264,5 +254,5 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         
     }
-}
+
 
