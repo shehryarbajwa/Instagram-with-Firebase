@@ -17,6 +17,7 @@ import UIKit
 
 protocol HomePostCellDelegate {
     func didTapComment(post: Post)
+    func didLike(for cell: HomePostCell)
 }
 
 class HomePostCell: UICollectionViewCell {
@@ -141,6 +142,8 @@ class HomePostCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        print("Loading data")
+        
         backgroundColor = .white
         
         addSubview(photoImageView)
@@ -179,6 +182,8 @@ class HomePostCell: UICollectionViewCell {
     
     @objc func handleLike(){
         print("Like button set")
+        delegate?.didLike(for: self)
+        
     }
     
     @objc func handleComment(){

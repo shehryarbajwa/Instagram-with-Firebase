@@ -18,6 +18,14 @@ import Firebase
 
 
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
+    func didLike(for cell: HomePostCell) {
+        //The indexPath returns the collectionView's indexPath that is selected
+        guard let indexPath = collectionView?.indexPath(for: cell) else {return}
+        let posts = self.Posts[indexPath.item]
+        print(posts.caption)
+        print("Handling like inside of Controller")
+    }
+    
     func didTapComment(post: Post) {
         print("Message coming from HomepostCell")
         //print(post.caption)
