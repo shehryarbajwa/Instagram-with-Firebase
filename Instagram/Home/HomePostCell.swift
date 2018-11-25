@@ -41,6 +41,8 @@ class HomePostCell: UICollectionViewCell {
             //This is called each time the 
             guard let postImageUrl = post?.imageUrl else {return}
             
+            likeButton.setImage(post?.hasliked == true ? UIImage(named: "liked_selected")?.withRenderingMode(.alwaysOriginal): UIImage(named: "liked_unselected")?.withRenderingMode(.alwaysOriginal), for: .normal)
+            
             //We set the usernameLabel to be the post's username that we import from Firebase
             photoImageView.loadImage(urlString: postImageUrl)
             usernameLabel.text = post?.user?.username

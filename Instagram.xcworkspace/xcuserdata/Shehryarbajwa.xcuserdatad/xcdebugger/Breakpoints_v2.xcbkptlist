@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Instagram/Home/HomeController.swift"
-            timestampString = "564831510.229764"
+            timestampString = "564831854.144453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "fetchpostswithuser(user:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -23,6 +23,18 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
         let posts = self.Posts[indexPath.item]
         print(posts.caption)
+        guard let postid = posts.id else {return}
+        
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        let values = [uid:1]
+        Database.database().reference().child("likes").child(postid).updateChildValues(values) { (err, ref) in
+            if let err = err {
+                print("Failed to like posts \(err)")
+                return
+            }
+            print("Successfuly liked posts")
+        }
         print("Handling like inside of Controller")
     }
     
