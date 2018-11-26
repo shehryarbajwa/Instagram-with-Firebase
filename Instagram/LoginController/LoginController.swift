@@ -131,7 +131,7 @@ class LoginController: UIViewController, UITextFieldDelegate {
         
         if isFormValid {
             loginButton.isEnabled = true
-            loginButton.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 230)
+            loginButton.backgroundColor = .mainBlue()
         } else {
             loginButton.isEnabled = false
             loginButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)

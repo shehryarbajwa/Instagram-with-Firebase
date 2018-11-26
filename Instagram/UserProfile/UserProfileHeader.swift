@@ -113,9 +113,10 @@ class UserProfileHeader: UICollectionViewCell {
     //Step2:
     //Creating a UIButton closure that is instantialized by creating a type of UIButton, then declaring that button and finally setting an image to the button for type normal
     
-    let gridButton: UIButton = {
+    lazy var gridButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "grid"), for: .normal)
+        button.addTarget(self, action: #selector(handleChangetoGridView), for: .touchUpInside)
         return button
     }()
     //Using the tintcolor allows you to make the color a bit transluscent
@@ -277,6 +278,14 @@ class UserProfileHeader: UICollectionViewCell {
     
     @objc func handleChangedtoListView(){
         print("Printing listView")
+        listButton.tintColor = .mainBlue()
+        gridButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        
+    }
+    
+    @objc func handleChangetoGridView(){
+        listButton.tintColor = .mainBlue()
+        gridButton.tintColor = UIColor(white: 0, alpha: 0.2)
     }
     
     //Download the profileimage from the user's Firebase Database. You need to select the url from the Firebase database, and then download the datataskwithURL. And then use the main.sync method to be used on the mainThread to cast the image since it involves using the UI. UI Related tasks are to be done on the main thread.
