@@ -119,10 +119,11 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     //Using the tintcolor allows you to make the color a bit transluscent
-    let listButton: UIButton = {
+    lazy var listButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "list"), for: .normal)
         button.tintColor = UIColor(white: 0, alpha: 0.2)
+        button.addTarget(self, action: #selector(handleChangedtoListView), for: .touchUpInside)
         return button
     }()
     
@@ -272,6 +273,10 @@ class UserProfileHeader: UICollectionViewCell {
         
         stackView.distribution = .fillEqually
         
+    }
+    
+    @objc func handleChangedtoListView(){
+        print("Printing listView")
     }
     
     //Download the profileimage from the user's Firebase Database. You need to select the url from the Firebase database, and then download the datataskwithURL. And then use the main.sync method to be used on the mainThread to cast the image since it involves using the UI. UI Related tasks are to be done on the main thread.
