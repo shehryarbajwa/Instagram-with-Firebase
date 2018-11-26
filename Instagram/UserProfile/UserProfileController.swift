@@ -12,12 +12,24 @@ import FirebaseAuth
 import Firebase
 import FirebaseDatabase
 
-class UserProfileController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class UserProfileController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate {
+    
+    var isGridView = true
+    
+    func didChangetoListView() {
+        isGridView = false
+    }
+    
+    func didChangetoGridView() {
+        isGridView = true
+    }
+    
     
     
     var UserID : String?
     
     let cellId = "cellID"
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,6 +162,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! UserProfileHeader
         
         header.user = self.user
+        header.delegate = self
         
         
         return header

@@ -10,8 +10,15 @@ import Foundation
 import Firebase
 import AssetsLibrary
 
+protocol UserProfileHeaderDelegate {
+    func didChangetoListView()
+    func didChangetoGridView()
+}
+
 
 class UserProfileHeader: UICollectionViewCell {
+    
+    var delegate : UserProfileHeaderDelegate?
     //
     var user: User? {
         didSet {
@@ -280,12 +287,15 @@ class UserProfileHeader: UICollectionViewCell {
         print("Printing listView")
         listButton.tintColor = .mainBlue()
         gridButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        delegate?.didChangetoListView()
         
     }
     
     @objc func handleChangetoGridView(){
-        listButton.tintColor = .mainBlue()
-        gridButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        print("Printing GridView")
+        gridButton.tintColor = .mainBlue()
+        listButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        delegate?.didChangetoGridView()
     }
     
     //Download the profileimage from the user's Firebase Database. You need to select the url from the Firebase database, and then download the datataskwithURL. And then use the main.sync method to be used on the mainThread to cast the image since it involves using the UI. UI Related tasks are to be done on the main thread.
