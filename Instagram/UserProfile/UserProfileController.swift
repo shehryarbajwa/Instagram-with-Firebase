@@ -69,9 +69,14 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         //Only query 6 items from the database each time
         
-        let query = ref.queryOrderedByKey().queryLimited(toFirst: 6)
+        var query = ref.queryOrderedByKey()
         
-        query.observeSingleEvent(of: .value
+        if Posts.count > 0 {
+            let value = Posts.last?.id
+            query.queryStarting(atValue: value)
+        }
+        
+        query.queryLimited(toFirst: 6).observeSingleEvent(of: .value
             , with: { (snapshot) in
                 
                 //AllObjects contains the caption,creationDate,imageHeight, imageURL so on and so forth
@@ -82,10 +87,14 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
                 allObjects?.forEach({ (snapshot) in
                     
                     guard let dictionary = snapshot.value as? [String:Any] else {return}
-                    let post = Post(user: user, dictionary: dictionary)
-                    
+                    var post = Post(user: user, dictionary: dictionary)
+                    post.id = snapshot.key
                     
                     self.Posts.append(post)
+                })
+                
+                self.Posts.forEach({ (post) in
+                    print(post.id ?? "")
                 })
                 
                 self.collectionView?.reloadData()
@@ -167,6 +176,13 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        //how to fire off the paginate call?
+        if indexPath.item == self.Posts.count - 1 {
+            print("Paginating for pots")
+            self.paginatePosts()
+        }
+        
         if isGridView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
             
