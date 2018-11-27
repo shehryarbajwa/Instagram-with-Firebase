@@ -68,8 +68,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         //the uid has the keys, which contain the data values
         
         //Only query 6 items from the database each time
-        let value = "LQrJB_eA3SjIFEgsK1U"
-        let query = ref.queryOrderedByKey().queryStarting(atValue: value).queryLimited(toFirst: 3)
+        
+        let query = ref.queryOrderedByKey().queryLimited(toFirst: 6)
         
         query.observeSingleEvent(of: .value
             , with: { (snapshot) in
@@ -83,8 +83,12 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
                     
                     guard let dictionary = snapshot.value as? [String:Any] else {return}
                     let post = Post(user: user, dictionary: dictionary)
-                    print(snapshot.key)
+                    
+                    
+                    self.Posts.append(post)
                 })
+                
+                self.collectionView?.reloadData()
                 
         }) { (err) in
             print("Failed to paginate for posts: \(err)")
