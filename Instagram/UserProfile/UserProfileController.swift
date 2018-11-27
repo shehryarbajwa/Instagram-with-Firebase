@@ -56,6 +56,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
     }
     //Create an array which is empty which contains the value of the posts
+    var isFinishedPaging = false
     var Posts = [Post]()
     
     fileprivate func paginatePosts(){
@@ -76,15 +77,22 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
             query.queryStarting(atValue: value)
         }
         
-        query.queryLimited(toFirst: 6).observeSingleEvent(of: .value
+        query.queryLimited(toFirst: 10).observeSingleEvent(of: .value
             , with: { (snapshot) in
                 
                 //AllObjects contains the caption,creationDate,imageHeight, imageURL so on and so forth
-                let allObjects = snapshot.children.allObjects as? [DataSnapshot]
+                guard var allObjects = snapshot.children.allObjects as? [DataSnapshot] else {return}
                 
+                if allObjects.count < 10 {
+                    self.isFinishedPaging = true
+                }
+                
+                if self.Posts.count > 0 {
+                    allObjects.removeFirst()
+                }
                 guard let user = self.user else {return}
                 
-                allObjects?.forEach({ (snapshot) in
+                allObjects.forEach({ (snapshot) in
                     
                     guard let dictionary = snapshot.value as? [String:Any] else {return}
                     var post = Post(user: user, dictionary: dictionary)
@@ -178,7 +186,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         //how to fire off the paginate call?
-        if indexPath.item == self.Posts.count - 1 {
+        if indexPath.item == self.Posts.count - 1 && !isFinishedPaging {
             print("Paginating for pots")
             self.paginatePosts()
         }
