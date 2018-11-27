@@ -58,6 +58,40 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     //Create an array which is empty which contains the value of the posts
     var Posts = [Post]()
     
+    fileprivate func paginatePosts(){
+        print("Starting paging for more posts")
+        
+        guard let uid = self.user?.uid else {return}
+        
+        let ref = Database.database().reference().child("posts").child(uid)
+        
+        //the uid has the keys, which contain the data values
+        
+        //Only query 6 items from the database each time
+        let value = "LQrJB_eA3SjIFEgsK1U"
+        let query = ref.queryOrderedByKey().queryStarting(atValue: value).queryLimited(toFirst: 3)
+        
+        query.observeSingleEvent(of: .value
+            , with: { (snapshot) in
+                
+                //AllObjects contains the caption,creationDate,imageHeight, imageURL so on and so forth
+                let allObjects = snapshot.children.allObjects as? [DataSnapshot]
+                
+                guard let user = self.user else {return}
+                
+                allObjects?.forEach({ (snapshot) in
+                    
+                    guard let dictionary = snapshot.value as? [String:Any] else {return}
+                    let post = Post(user: user, dictionary: dictionary)
+                    print(snapshot.key)
+                })
+                
+        }) { (err) in
+            print("Failed to paginate for posts: \(err)")
+        }
+        
+    }
+    
     
     fileprivate func fetchOrderedPosts(){
         
@@ -212,7 +246,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
             //First we fetch user with the UserID
             //Once we have this , then we click on fetchOrderedPosts()
             
-            self.fetchOrderedPosts()
+            self.paginatePosts()
         }
     }
 }

@@ -19,6 +19,7 @@ import Firebase
 
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
     
+    
     func didLike(for cell: HomePostCell) {
         //The indexPath returns the collectionView's indexPath that is selected
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
