@@ -180,10 +180,6 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! HomePostCell
         
-        //cell.post runs on each indexPath's item. It starts with 0, then 1 then 2 etc.
-        //The value of post is changed with each IndexPath Item.
-        //Posts[indexPath.item] means what is the value of imageURL at key 0, then 1 then 2 etc.
-        //This changes the post Variable in HomePostcell and notifies it which then marks when values are changed.
         cell.post = Posts[indexPath.item]
         
         cell.delegate = self
