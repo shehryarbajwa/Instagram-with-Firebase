@@ -8,9 +8,10 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 
     var window: UIWindow?
     
@@ -25,9 +26,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.rootViewController = MainTabBarController()
         
+        attempttoRegisterNotifications(application: application)
         
         // Override point for customization after application launch.
         return true
+    }
+    
+    private func attempttoRegisterNotifications(application: UIApplication){
+        
+        
+        
+        let options : UNAuthorizationOptions = [.badge, .alert, .sound]
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { (granted, err) in
+            if let err = err {
+                print("Failed to request authorization : \(err)")
+                return
+                
+            }
+            
+            
+            
+            if granted {
+                print("Auth granted .")
+            } else {
+                print("Auth denied")
+            }
+        }
+        
+        application.registerForRemoteNotifications()
+        
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("Registered for remote Notifications :\(deviceToken)")
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

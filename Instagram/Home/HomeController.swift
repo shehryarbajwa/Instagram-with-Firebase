@@ -19,102 +19,49 @@ import Firebase
 
 class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
     
-    
-    func didLike(for cell: HomePostCell) {
-        //The indexPath returns the collectionView's indexPath that is selected
-        guard let indexPath = collectionView?.indexPath(for: cell) else {return}
-        var posts = self.Posts[indexPath.item]
-        print(posts.caption)
-        guard let postid = posts.id else {return}
-        
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        
-        let values = [uid: posts.hasliked == true ? 0 : 1]
-        Database.database().reference().child("likes").child(postid).updateChildValues(values) { (err, ref) in
-            if let err = err {
-                print("Failed to like posts \(err)")
-                return
-            }
-            print("Successfuly liked posts")
-            
-            posts.hasliked = !posts.hasliked
-            
-            self.Posts[indexPath.item] = posts
-            
-            self.collectionView?.reloadItems(at: [indexPath])
-        }
-        print("Handling like inside of Controller")
-    }
-    
-    func didTapComment(post: Post) {
-        print("Message coming from HomepostCell")
-        //print(post.caption)
-        let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
-        //Once a post is clicked on, we can then take the reference from the Post Struct and then allow this post to be used in CommentsController
-        commentsController.post = post
-        navigationController?.pushViewController(commentsController, animated: true)
-        //Once we get this information, we can then ask the viewController to push another ViewController on the stack of ViewControllers
-    }
-    
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    let imageUrl = "imageUrl"
-    let cellID = "cellID"
+    let cellId = "cellId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: SharePhotoController.updateFeedNotification, object: nil)
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatefeed), name: SharePhotoController.updateFeedNotification, object: nil)
         
         collectionView?.backgroundColor = .white
-        //For creating custom cells in the homenewsfeed which will contain the posts
-        //We create a collectionViewController which then contains collectionViewCells to display different things. Good design pattern
         
+        collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellId)
         
-        collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellID)
-        //Added the refresh control
-        //Then added a target which is handleRefresh which is just fetching posts again
-        //It allows the collectionView to refresh its Control
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
         
-        fetchAllposts()
-        setupNavigationBar()
+        setupNavigationItems()
         
+        fetchAllPosts()
     }
     
-    @objc func handleRefresh(){
-        fetchAllposts()
-        Posts.removeAll()
-    }
-    
-    @objc func handleUpdatefeed(){
+    @objc func handleUpdateFeed() {
         handleRefresh()
     }
     
-    fileprivate func fetchAllposts(){
-        fetchPosts()
-        fetchFollowinguserID()
+    @objc func handleRefresh() {
+        print("Handling refresh..")
+        posts.removeAll()
+        
+        fetchAllPosts()
     }
     
-    fileprivate func fetchFollowinguserID(){
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        
+    fileprivate func fetchAllPosts() {
+        fetchPosts()
+        fetchFollowingUserIds()
+    }
+    
+    fileprivate func fetchFollowingUserIds() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            
-            guard let userIdsDictionary = snapshot.value as? [String:Any] else {return}
+            guard let userIdsDictionary = snapshot.value as? [String: Any] else { return }
             
             userIdsDictionary.forEach({ (key, value) in
                 Database.fetchUserwithUID(uid: key, completion: { (user) in
@@ -123,87 +70,21 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             })
             
         }) { (err) in
-            print("Failed to fetch following users :\(err)")
+            print("Failed to fetch following user ids:", err)
         }
     }
     
-    func setupNavigationBar(){
-        navigationItem.titleView = UIImageView(image: UIImage(named: "logo2"))
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "camera3")?.withRenderingMode(.alwaysOriginal), landscapeImagePhone: UIImage(named: "camera3"), style: .plain, target: self, action: #selector(handleCamera))
-    }
+    //iOS9
+    //let refreshControl = UIRefreshControl()
     
-    @objc func handleCamera(){
-        print("Showcasing camera")
-        let cameraController = CameraController()
-        //Once the camera button is pushed, we use CATransition
-        //An object that provides an animated transition between a layer's states.
-        //transitions duration is 0.30
-        //transitions type is transitionPush, could be fade, move in, reveal
-        //Further, the subtype denotes how to present the subview
-        //Then just add to the layer and you are done
-        let transition = CATransition()
-        transition.duration = 0.30
-        transition.type = kCATransitionPush
-        transition.subtype = kCATransitionFromLeft
-        self.view.window!.layer.add(transition, forKey: kCATransition)
-            
-        present(cameraController, animated: false)
-        
-        
-    }
-    
-    
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Posts.count
-    }
-    //Can be used withFlowLayout Delegate method
-    //Size for item at determines how big you want the cell's height to be
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        //By giving the 40 that is the height of the userprofileImageview, and the 8 and 8 are the heights for the top anchor and the bottom anchor
-        //It is then incremented with view.frame.width
-        
-        //THIS IS SUPERIMPORTANT FOR CELLSPACING. BY CREATING HEIGHT, WE SET THE HEIGHT FOR EACH VARIABLE WITHIN THE CELL
-        
-        var height : CGFloat = 40 + 8 + 8 // username and userprofileimageview
-        height += view.frame.width
-        height += 50
-        height += 60
-        
-        return CGSize(width: view.frame.width, height: height)
-    }
-    //CollectionView has to use the property cellforItem at
-    //Then you can register different cells for the collectionView
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! HomePostCell
-        
-        cell.post = Posts[indexPath.item]
-        
-        cell.delegate = self
-        
-        return cell
-    }
-    //Posts is the empty array of imageURL's
-    var Posts = [Post]()
-    
-    fileprivate func fetchPosts(){
-        
-        //In the fetching of Posts we can then initialize the Post and User Library with the values imported from Firebase
-        
-        
-        
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        
-        //We use the completionBlock within fetchUserwithUID so that we can fetchpostswithuser once we make the Firebase network requests aswell as the
+    var posts = [Post]()
+    fileprivate func fetchPosts() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         Database.fetchUserwithUID(uid: uid) { (user) in
             self.fetchPostsWithUser(user: user)
         }
     }
-    
     
     fileprivate func fetchPostsWithUser(user: User) {
         let ref = Database.database().reference().child("posts").child(user.uid)
@@ -221,7 +102,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                 
                 guard let uid = Auth.auth().currentUser?.uid else { return }
                 Database.database().reference().child("likes").child(key).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                    print(snapshot)
+                    //                    print(snapshot)
                     
                     if let value = snapshot.value as? Int, value == 1 {
                         post.hasliked = true
@@ -229,8 +110,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
                         post.hasliked = false
                     }
                     
-                    self.Posts.append(post)
-                    self.Posts.sort(by: { (p1, p2) -> Bool in
+                    self.posts.append(post)
+                    self.posts.sort(by: { (p1, p2) -> Bool in
                         return p1.creationDate.compare(p2.creationDate) == .orderedDescending
                     })
                     self.collectionView?.reloadData()
@@ -244,12 +125,80 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
             print("Failed to fetch posts:", err)
         }
     }
+    
+    func setupNavigationItems() {
+        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo2"))
         
-        
-        
-       
-        
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "camera3").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleCamera))
     }
-
-
+    
+    @objc func handleCamera() {
+        print("Showing camera")
+        
+        let cameraController = CameraController()
+        present(cameraController, animated: true, completion: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        var height: CGFloat = 40 + 8 + 8 //username userprofileimageview
+        height += view.frame.width
+        height += 50
+        height += 60
+        
+        return CGSize(width: view.frame.width, height: height)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomePostCell
+        
+        cell.post = posts[indexPath.item]
+        
+        cell.delegate = self
+        
+        return cell
+    }
+    
+    func didTapComment(post: Post) {
+        print("Message coming from HomeController")
+        print(post.caption)
+        let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+        commentsController.post = post
+        navigationController?.pushViewController(commentsController, animated: true)
+    }
+    
+    func didLike(for cell: HomePostCell) {
+        guard let indexPath = collectionView?.indexPath(for: cell) else { return }
+        
+        var post = self.posts[indexPath.item]
+        print(post.caption)
+        
+        guard let postId = post.id else { return }
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let values = [uid: post.hasliked == true ? 0 : 1]
+        Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _) in
+            
+            if let err = err {
+                print("Failed to like post:", err)
+                return
+            }
+            
+            print("Successfully liked post.")
+            
+            post.hasliked = !post.hasliked
+            
+            self.posts[indexPath.item] = post
+            
+            self.collectionView?.reloadItems(at: [indexPath])
+            
+        }
+    }
+    
+}
